@@ -7,14 +7,15 @@ import java.sql.Date;
 public final class Invoice
 {
   public final int id;
-  public final int num;
+  @NotNull
+  public final String num;
   @NotNull
   public final Date date;
   @NotNull
   public final Organization organization;
 
 
-  public Invoice(final int id, final int num, @NotNull final Date date, @NotNull final Organization organization)
+  public Invoice(final int id, @NotNull final String num, @NotNull final Date date, @NotNull final Organization organization)
   {
     this.id = id;
     this.num = num;

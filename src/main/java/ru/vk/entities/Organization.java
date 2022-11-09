@@ -7,12 +7,13 @@ public final class Organization
   public final int id;
   @NotNull
   public final String name;
-  public final int inn;
+  @NotNull
+  public final String inn;
   @NotNull
   public final String paymentAccount;
 
 
-  public Organization(final int id, @NotNull final String name, final int inn, @NotNull final String paymentAccount)
+  public Organization(final int id, @NotNull final String name, @NotNull final String inn, @NotNull final String paymentAccount)
   {
     this.id = id;
     this.name = name;

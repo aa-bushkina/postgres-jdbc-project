@@ -5,11 +5,12 @@ import org.jetbrains.annotations.NotNull;
 public final class Product
 {
   public final int id;
-  public final int internalCode;
+  @NotNull
+  public final String internalCode;
   @NotNull
   public final String name;
 
-  public Product(final int id, final int internalCode, @NotNull final String name)
+  public Product(final int id, @NotNull final String internalCode, @NotNull final String name)
   {
     this.id = id;
     this.internalCode = internalCode;
