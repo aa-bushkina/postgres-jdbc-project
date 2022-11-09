@@ -1,4 +1,4 @@
-package ru.vk;
+package ru.vk.application;
 
 import com.google.inject.AbstractModule;
 import org.jetbrains.annotations.NotNull;

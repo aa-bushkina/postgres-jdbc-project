@@ -3,6 +3,8 @@ package ru.vk;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.jetbrains.annotations.NotNull;
+import ru.vk.application.Application;
+import ru.vk.application.ApplicationModule;
 
 public class Main
 {

@@ -1,4 +1,4 @@
-package ru.vk;
+package ru.vk.application;
 
 import org.flywaydb.core.Flyway;
 import org.jetbrains.annotations.NotNull;
