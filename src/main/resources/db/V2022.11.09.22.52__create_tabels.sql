@@ -14,7 +14,7 @@ CREATE TABLE organizations
     payment_account VARCHAR(10) NOT NULL,
     CONSTRAINT organization_pk PRIMARY KEY (id),
     CONSTRAINT check_inn CHECK
-        (inn LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+        (inn ~ '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
     CONSTRAINT check_payment_account CHECK
-        (payment_account LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
+        (payment_account ~ '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
 );
