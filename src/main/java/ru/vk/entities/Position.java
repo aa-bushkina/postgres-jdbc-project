@@ -10,7 +10,7 @@ public final class Position
   public final Product product;
   public final int quantity;
 
-  public Position(int id, double price, @NotNull Product product, int quantity)
+  public Position(final int id, double price, @NotNull Product product, int quantity)
   {
     this.id = id;
     this.price = price;

@@ -9,9 +9,7 @@ public final class Product
   @NotNull
   public final String name;
 
-
-
-  public Product(int id, final int internalCode, @NotNull final String name)
+  public Product(final int id, final int internalCode, @NotNull final String name)
   {
     this.id = id;
     this.internalCode = internalCode;

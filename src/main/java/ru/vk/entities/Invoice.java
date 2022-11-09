@@ -14,7 +14,7 @@ public final class Invoice
   public final Organization organization;
 
 
-  public Invoice(int id, int num, @NotNull Date date, @NotNull Organization organization)
+  public Invoice(final int id, final int num, @NotNull final Date date, @NotNull final Organization organization)
   {
     this.id = id;
     this.num = num;

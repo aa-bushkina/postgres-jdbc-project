@@ -1,7 +1,6 @@
 package ru.vk;
 
 import com.google.inject.Inject;
-import org.flywaydb.core.Flyway;
 import org.jetbrains.annotations.NotNull;
 
 public class Application
