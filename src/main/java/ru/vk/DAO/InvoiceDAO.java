@@ -2,6 +2,7 @@ package ru.vk.DAO;
 
 import org.jetbrains.annotations.NotNull;
 import ru.vk.entities.Invoice;
+import ru.vk.entities.Organization;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,71 +13,103 @@ public class InvoiceDAO implements Dao<Invoice>
 {
   private final @NotNull Connection connection;
 
-  public InvoiceDAO(@NotNull Connection connection) {
+  public InvoiceDAO(@NotNull Connection connection)
+  {
     this.connection = connection;
   }
 
   @Override
-  public @NotNull Invoice get(int id) {
-    try (var statement = connection.createStatement()) {
-      try (var resultSet = statement.executeQuery("SELECT id, name FROM person WHERE id = " + id)) {
-        if (resultSet.next()) {
-      //    return new Invoice(resultSet.getInt("id"), resultSet.getString("name"));
+  public @NotNull Invoice get(int id)
+  {
+    try (var statement = connection.createStatement())
+    {
+      try (var resultSet = statement
+        .executeQuery("SELECT id, num, date, organization_id FROM invoices WHERE id = ?" + id))
+      {
+        if (resultSet.next())
+        {
+          return new Invoice(resultSet.getInt("id"),
+            resultSet.getString("num"),
+            resultSet.getDate("date"),
+            resultSet.getObject("num", Organization.class));
         }
       }
-    } catch (SQLException e) {
+    } catch (SQLException e)
+    {
       System.out.println(e.getMessage());
     }
     throw new IllegalStateException("Record with id " + id + "not found");
   }
 
   @Override
-  public @NotNull List<Invoice> all() {
+  public @NotNull List<Invoice> all()
+  {
     final var result = new ArrayList<Invoice>();
-    try (var statement = connection.createStatement()) {
-      try (var resultSet = statement.executeQuery("SELECT * FROM person")) {
-        while (resultSet.next()) {
-        //  result.add(new Invoice(resultSet.getInt("id"), resultSet.getString("name")));
+    try (var statement = connection.createStatement())
+    {
+      try (var resultSet = statement.executeQuery("SELECT * FROM invoices"))
+      {
+        while (resultSet.next())
+        {
+          result.add(new Invoice(resultSet.getInt("id"),
+            resultSet.getString("num"),
+            resultSet.getDate("date"),
+            resultSet.getObject("num", Organization.class)));
         }
         return result;
       }
-    } catch (SQLException e) {
+    } catch (SQLException e)
+    {
       e.printStackTrace();
     }
     return result;
   }
 
   @Override
-  public void save(@NotNull Invoice entity) {
-    try (var preparedStatement = connection.prepareStatement("INSERT INTO person(id,name) VALUES(?,?)")) {
-      preparedStatement.setInt(1, entity.id);
-     // preparedStatement.setString(2, entity.name);
+  public void save(@NotNull Invoice entity)
+  {
+    try (var preparedStatement = connection
+      .prepareStatement("INSERT INTO invoices(num,date,organization_id) VALUES(?,?,?)"))
+    {
+      preparedStatement.setString(1, entity.num);
+      preparedStatement.setDate(2, entity.date);
+      preparedStatement.setInt(3, entity.organization.id);
       preparedStatement.executeUpdate();
-    } catch (SQLException e) {
+    } catch (SQLException e)
+    {
       e.printStackTrace();
     }
   }
 
   @Override
-  public void update(@NotNull Invoice entity) {
-    try(var preparedStatement = connection.prepareStatement("UPDATE person SET name = ? WHERE id = ?")) {
-      int fieldIndex = 1;
-      //preparedStatement.setString(fieldIndex++, entity.name);
-      preparedStatement.setInt(fieldIndex, entity.id);
+  public void update(@NotNull Invoice entity)
+  {
+    try (var preparedStatement = connection
+      .prepareStatement("UPDATE invoices SET num = ?, date = ?, organization_id = ? WHERE id = ?"))
+    {
+      preparedStatement.setString(1, entity.num);
+      preparedStatement.setDate(2, entity.date);
+      preparedStatement.setInt(3, entity.organization.id);
+      preparedStatement.setInt(4, entity.id);
       preparedStatement.executeUpdate();
-    } catch (SQLException e) {
+    } catch (SQLException e)
+    {
       e.printStackTrace();
     }
   }
 
   @Override
-  public void delete(@NotNull Invoice entity) {
-    try( var preparedStatement = connection.prepareStatement("DELETE FROM person WHERE id = ?")) {
+  public void delete(@NotNull Invoice entity)
+  {
+    try (var preparedStatement = connection.prepareStatement("DELETE FROM invoices WHERE id = ?"))
+    {
       preparedStatement.setInt(1, entity.id);
-      if (preparedStatement.executeUpdate() == 0) {
-      //  throw new IllegalStateException("Record with id = " + entity.name + " not found");
+      if (preparedStatement.executeUpdate() == 0)
+      {
+        throw new IllegalStateException("Record with id = " + entity.id + " not found");
       }
-    } catch (SQLException e) {
+    } catch (SQLException e)
+    {
       e.printStackTrace();
     }
   }
