@@ -9,7 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InvoiceDAO implements Dao<Invoice>
+@SuppressWarnings({"NotNullNullableValidation", "SqlNoDataSourceInspection", "SqlResolve"})
+public final class InvoiceDAO implements Dao<Invoice>
 {
   private final @NotNull Connection connection;
 
@@ -31,7 +32,7 @@ public class InvoiceDAO implements Dao<Invoice>
           return new Invoice(resultSet.getInt("id"),
             resultSet.getString("num"),
             resultSet.getDate("date"),
-            resultSet.getObject("num", Organization.class));
+            resultSet.getInt("organization_id"));
         }
       }
     } catch (SQLException e)
@@ -47,14 +48,14 @@ public class InvoiceDAO implements Dao<Invoice>
     final var result = new ArrayList<Invoice>();
     try (var statement = connection.createStatement())
     {
-      try (var resultSet = statement.executeQuery("SELECT * FROM invoices"))
+      try (var resultSet = statement.executeQuery("SELECT * FROM public.invoices"))
       {
         while (resultSet.next())
         {
           result.add(new Invoice(resultSet.getInt("id"),
             resultSet.getString("num"),
             resultSet.getDate("date"),
-            resultSet.getObject("num", Organization.class)));
+            resultSet.getInt("organization_id")));
         }
         return result;
       }
@@ -73,7 +74,7 @@ public class InvoiceDAO implements Dao<Invoice>
     {
       preparedStatement.setString(1, entity.num);
       preparedStatement.setDate(2, entity.date);
-      preparedStatement.setInt(3, entity.organization.id);
+      preparedStatement.setInt(3, entity.organization_id);
       preparedStatement.executeUpdate();
     } catch (SQLException e)
     {
@@ -89,7 +90,7 @@ public class InvoiceDAO implements Dao<Invoice>
     {
       preparedStatement.setString(1, entity.num);
       preparedStatement.setDate(2, entity.date);
-      preparedStatement.setInt(3, entity.organization.id);
+      preparedStatement.setInt(3, entity.organization_id);
       preparedStatement.setInt(4, entity.id);
       preparedStatement.executeUpdate();
     } catch (SQLException e)

@@ -11,16 +11,14 @@ public final class Invoice
   public final String num;
   @NotNull
   public final Date date;
-  @NotNull
-  public final Organization organization;
+  public final int organization_id;
 
-
-  public Invoice(final int id, @NotNull final String num, @NotNull final Date date, @NotNull final Organization organization)
+  public Invoice(final int id, @NotNull final String num, @NotNull final Date date, final int organization_id)
   {
     this.id = id;
     this.num = num;
     this.date = date;
-    this.organization = organization;
+    this.organization_id = organization_id;
   }
 
   @Override
@@ -30,7 +28,7 @@ public final class Invoice
       "id=" + id +
       "number=" + num +
       ", date='" + date +
-      ", sender organization='" + organization +
+      ", sender organization id='" + organization_id +
       '}';
   }
 }

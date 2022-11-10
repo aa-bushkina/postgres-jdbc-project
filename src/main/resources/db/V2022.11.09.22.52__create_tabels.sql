@@ -10,8 +10,8 @@ CREATE TABLE organizations
 (
     id              SERIAL      NOT NULL,
     name            VARCHAR     NOT NULL,
-    inn             VARCHAR(10) NOT NULL,
-    payment_account VARCHAR(10) NOT NULL,
+    inn             VARCHAR(10) NOT NULL UNIQUE,
+    payment_account VARCHAR(10) NOT NULL UNIQUE,
     CONSTRAINT organization_pk PRIMARY KEY (id),
     CONSTRAINT check_inn CHECK
         (inn ~ '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),

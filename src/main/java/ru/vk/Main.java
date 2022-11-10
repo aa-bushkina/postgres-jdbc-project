@@ -12,5 +12,6 @@ public class Main
   {
     final Injector injector = Guice.createInjector(new ApplicationModule(args));
     injector.getInstance(Application.class).makeDB();
+    injector.getInstance(Application.class).testInvoiceDAO();
   }
 }
