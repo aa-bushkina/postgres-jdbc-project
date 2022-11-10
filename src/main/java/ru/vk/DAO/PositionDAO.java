@@ -1,7 +1,7 @@
 package ru.vk.DAO;
 
 import org.jetbrains.annotations.NotNull;
-import ru.vk.entities.Invoice;
+import ru.vk.entities.Position;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -9,29 +9,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"NotNullNullableValidation", "SqlNoDataSourceInspection", "SqlResolve"})
-public final class InvoiceDAO implements Dao<Invoice>
+public final class PositionDAO implements Dao<Position>
 {
   private final @NotNull Connection connection;
 
-  public InvoiceDAO(@NotNull Connection connection)
+  public PositionDAO(@NotNull Connection connection)
   {
     this.connection = connection;
   }
 
   @Override
-  public @NotNull Invoice get(int id)
+  public @NotNull Position get(int id)
   {
     try (var statement = connection.createStatement())
     {
       try (var resultSet = statement
-        .executeQuery("SELECT id, num, date, organization_id FROM invoices WHERE id = ?" + id))
+        .executeQuery("SELECT id, price, product_id, quantity FROM positions WHERE id = ?" + id))
       {
         if (resultSet.next())
         {
-          return new Invoice(resultSet.getInt("id"),
-            resultSet.getString("num"),
-            resultSet.getDate("date"),
-            resultSet.getInt("organization_id"));
+          return new Position(resultSet.getInt("id"),
+            resultSet.getDouble("price"),
+            resultSet.getInt("product_id"),
+            resultSet.getInt("quantity"));
         }
       }
     } catch (SQLException e)
@@ -42,19 +42,19 @@ public final class InvoiceDAO implements Dao<Invoice>
   }
 
   @Override
-  public @NotNull List<Invoice> all()
+  public @NotNull List<Position> all()
   {
-    final var result = new ArrayList<Invoice>();
+    final var result = new ArrayList<Position>();
     try (var statement = connection.createStatement())
     {
-      try (var resultSet = statement.executeQuery("SELECT * FROM invoices"))
+      try (var resultSet = statement.executeQuery("SELECT * FROM positions"))
       {
         while (resultSet.next())
         {
-          result.add(new Invoice(resultSet.getInt("id"),
-            resultSet.getString("num"),
-            resultSet.getDate("date"),
-            resultSet.getInt("organization_id")));
+          result.add(new Position(resultSet.getInt("id"),
+            resultSet.getDouble("price"),
+            resultSet.getInt("product_id"),
+            resultSet.getInt("quantity")));
         }
         return result;
       }
@@ -66,14 +66,14 @@ public final class InvoiceDAO implements Dao<Invoice>
   }
 
   @Override
-  public void save(@NotNull Invoice entity)
+  public void save(@NotNull Position entity)
   {
     try (var preparedStatement = connection
-      .prepareStatement("INSERT INTO invoices(num, date, organization_id) VALUES(?,?,?)"))
+      .prepareStatement("INSERT INTO positions(price, product_id, quantity) VALUES(?,?,?)"))
     {
-      preparedStatement.setString(1, entity.num);
-      preparedStatement.setDate(2, entity.date);
-      preparedStatement.setInt(3, entity.organization_id);
+      preparedStatement.setDouble(1, entity.price);
+      preparedStatement.setInt(2, entity.product_id);
+      preparedStatement.setInt(3, entity.quantity);
       preparedStatement.executeUpdate();
     } catch (SQLException e)
     {
@@ -82,16 +82,14 @@ public final class InvoiceDAO implements Dao<Invoice>
   }
 
   @Override
-  public void update(@NotNull Invoice entity)
+  public void update(@NotNull Position entity)
   {
     try (var preparedStatement = connection
-      .prepareStatement("UPDATE invoices SET num = ?, " +
-        "date = ?, " +
-        "organization_id = ? WHERE id = ?"))
+      .prepareStatement("UPDATE positions SET price = ?, product_id = ?, quantity = ? WHERE id = ?"))
     {
-      preparedStatement.setString(1, entity.num);
-      preparedStatement.setDate(2, entity.date);
-      preparedStatement.setInt(3, entity.organization_id);
+      preparedStatement.setDouble(1, entity.price);
+      preparedStatement.setInt(2, entity.product_id);
+      preparedStatement.setInt(3, entity.quantity);
       preparedStatement.setInt(4, entity.id);
       preparedStatement.executeUpdate();
     } catch (SQLException e)
@@ -101,10 +99,9 @@ public final class InvoiceDAO implements Dao<Invoice>
   }
 
   @Override
-  public void delete(@NotNull Invoice entity)
+  public void delete(@NotNull Position entity)
   {
-    try (var preparedStatement = connection
-      .prepareStatement("DELETE FROM invoices WHERE id = ?"))
+    try (var preparedStatement = connection.prepareStatement("DELETE FROM positions WHERE id = ?"))
     {
       preparedStatement.setInt(1, entity.id);
       if (preparedStatement.executeUpdate() == 0)

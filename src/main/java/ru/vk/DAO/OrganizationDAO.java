@@ -1,7 +1,6 @@
 package ru.vk.DAO;
 
 import org.jetbrains.annotations.NotNull;
-import ru.vk.entities.Invoice;
 import ru.vk.entities.Organization;
 
 import java.sql.Connection;
