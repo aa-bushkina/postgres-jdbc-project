@@ -20,10 +20,10 @@ public final class Product
   @Override
   public @NotNull String toString()
   {
-    return "Product{" +
-      "id=" + id +
-      "internal code=" + internalCode +
-      ", name='" + name +
-      '}';
+    return "\nProduct{" +
+      "\nid=" + id +
+      ",\ninternal code=" + internalCode +
+      ",\nname='" + name +
+      "}\n";
   }
 }

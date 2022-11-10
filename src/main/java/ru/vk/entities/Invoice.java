@@ -24,11 +24,11 @@ public final class Invoice
   @Override
   public @NotNull String toString()
   {
-    return "Invoice{" +
-      "id=" + id +
-      "number=" + num +
-      ", date='" + date +
-      ", sender organization id='" + organization_id +
-      '}';
+    return "\nInvoice{" +
+      "\nid=" + id +
+      ",\nnumber=" + num +
+      ",\ndate='" + date +
+      ",\nsender organization id='" + organization_id +
+      "}\n";
   }
 }

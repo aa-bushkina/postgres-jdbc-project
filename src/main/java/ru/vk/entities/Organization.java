@@ -24,11 +24,11 @@ public final class Organization
   @Override
   public @NotNull String toString()
   {
-    return "Organization{" +
+    return "\nOrganization{" +
       "id=" + id +
-      ", name='" + name +
-      ", inn='" + inn +
-      ", payment account='" + paymentAccount +
-      '}';
+      ",\nname='" + name +
+      ",\ninn='" + inn +
+      ",\npayment account='" + paymentAccount +
+      "}\n";
   }
 }

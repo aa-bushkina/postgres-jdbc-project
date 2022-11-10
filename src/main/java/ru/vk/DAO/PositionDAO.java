@@ -29,7 +29,7 @@ public final class PositionDAO implements Dao<Position>
         if (resultSet.next())
         {
           return new Position(resultSet.getInt("id"),
-            resultSet.getDouble("price"),
+            resultSet.getBigDecimal("price"),
             resultSet.getInt("product_id"),
             resultSet.getInt("quantity"));
         }
@@ -52,7 +52,7 @@ public final class PositionDAO implements Dao<Position>
         while (resultSet.next())
         {
           result.add(new Position(resultSet.getInt("id"),
-            resultSet.getDouble("price"),
+            resultSet.getBigDecimal("price"),
             resultSet.getInt("product_id"),
             resultSet.getInt("quantity")));
         }
@@ -71,7 +71,7 @@ public final class PositionDAO implements Dao<Position>
     try (var preparedStatement = connection
       .prepareStatement("INSERT INTO positions(price, product_id, quantity) VALUES(?,?,?)"))
     {
-      preparedStatement.setDouble(1, entity.price);
+      preparedStatement.setBigDecimal(1, entity.price);
       preparedStatement.setInt(2, entity.product_id);
       preparedStatement.setInt(3, entity.quantity);
       preparedStatement.executeUpdate();
@@ -87,7 +87,7 @@ public final class PositionDAO implements Dao<Position>
     try (var preparedStatement = connection
       .prepareStatement("UPDATE positions SET price = ?, product_id = ?, quantity = ? WHERE id = ?"))
     {
-      preparedStatement.setDouble(1, entity.price);
+      preparedStatement.setBigDecimal(1, entity.price);
       preparedStatement.setInt(2, entity.product_id);
       preparedStatement.setInt(3, entity.quantity);
       preparedStatement.setInt(4, entity.id);
