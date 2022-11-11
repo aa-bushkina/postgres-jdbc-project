@@ -8,10 +8,8 @@ import ru.vk.entities.Invoice;
 import ru.vk.entities.Organization;
 import ru.vk.entities.Product;
 
+import java.sql.*;
 import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
 
 public class Application
@@ -52,6 +50,14 @@ public class Application
     }
   }
 
+  private Connection getConnection() throws SQLException
+  {
+    return DriverManager.getConnection(
+      DBProperties.connection() + DBProperties.name(),
+      DBProperties.username(),
+      DBProperties.password());
+  }
+
   public Map<Organization, Integer> getTop10OrganizationByQuantity()
   {
     final @NotNull String SELECT_SQL = """
@@ -67,10 +73,7 @@ public class Application
       order by quantity desc
       limit ?""";
 
-    try (var connection = DriverManager.getConnection(
-      DBProperties.connection() + DBProperties.name(),
-      DBProperties.username(),
-      DBProperties.password()))
+    try (var connection = getConnection())
     {
       try (var statement = connection.prepareStatement(SELECT_SQL))
       {
@@ -113,10 +116,7 @@ public class Application
       having  sum(positions.quantity)>?
       order by quantity desc""";
 
-    try (var connection = DriverManager.getConnection(
-      DBProperties.connection() + DBProperties.name(),
-      DBProperties.username(),
-      DBProperties.password()))
+    try (var connection = getConnection())
     {
       try (var statement = connection.prepareStatement(SELECT_SQL))
       {
@@ -161,10 +161,7 @@ public class Application
       group by  date, products.id, products.name
       order by products.name""";
 
-    try (var connection = DriverManager.getConnection(
-      DBProperties.connection() + DBProperties.name(),
-      DBProperties.username(),
-      DBProperties.password()))
+    try (var connection = getConnection())
     {
       try (var statement = connection.prepareStatement(SELECT_SQL))
       {
@@ -207,10 +204,7 @@ public class Application
       on invoices.id = invoices_positions.invoice_id
       where date >= ? and date <= ?""";
 
-    try (var connection = DriverManager.getConnection(
-      DBProperties.connection() + DBProperties.name(),
-      DBProperties.username(),
-      DBProperties.password()))
+    try (var connection = getConnection())
     {
       try (var statement = connection.prepareStatement(SELECT_SQL))
       {
@@ -248,10 +242,7 @@ public class Application
       on positions.product_id = products.id
       where date >= ? and date <= ?""";
 
-    try (var connection = DriverManager.getConnection(
-      DBProperties.connection() + DBProperties.name(),
-      DBProperties.username(),
-      DBProperties.password()))
+    try (var connection = getConnection())
     {
       try (var statement =
              connection.prepareStatement(SELECT_SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
