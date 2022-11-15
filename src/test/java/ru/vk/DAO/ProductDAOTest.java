@@ -1,10 +1,15 @@
 package ru.vk.DAO;
 
+import com.google.inject.Inject;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ProductDAOTest extends AbstractDAOTest
 {
+  @Inject
+  @NotNull
+  private ProductDAO productDAO;
   @Test
   @DisplayName("Получение товара из БД")
   void get()

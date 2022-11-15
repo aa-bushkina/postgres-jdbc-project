@@ -2,21 +2,18 @@ package ru.vk.application;
 
 import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
-import ru.vk.DAO.InvoiceDAO;
 import ru.vk.application.utils.ProductInfo;
-import ru.vk.entities.Invoice;
 import ru.vk.entities.Organization;
 import ru.vk.entities.Product;
 
-import java.sql.*;
 import java.sql.Date;
+import java.sql.*;
 import java.util.*;
 
 public class Application
 {
   @NotNull
   final private DBProperties DBProperties;
-  final private int DEFAULT_ID = 0;
 
   @Inject
   public Application(@NotNull final DBProperties DBProperties)
@@ -28,26 +25,6 @@ public class Application
   {
     FlywayInitializer initializer = new FlywayInitializer(DBProperties);
     initializer.initDB();
-  }
-
-  public void testInvoiceDAO()
-  {
-    try (var connection = DriverManager.getConnection(
-      DBProperties.connection() + DBProperties.name(),
-      DBProperties.username(),
-      DBProperties.password()))
-    {
-      final var dao = new InvoiceDAO(connection);
-
-      //dao.save(new Invoice(DEFAULT_ID, "7765656565", Date.valueOf("2022-10-07"), 3));
-      dao.all().forEach(System.out::println);
-      dao.delete(new Invoice(8, "7765656565", Date.valueOf("2022-10-07"), 3));
-      dao.update(new Invoice(6, "8899889988", Date.valueOf("2022-10-08"), 2));
-      dao.all().forEach(System.out::println);
-    } catch (SQLException exception)
-    {
-      exception.printStackTrace();
-    }
   }
 
   private Connection getConnection() throws SQLException
@@ -198,11 +175,15 @@ public class Application
   public double getAverageOfProductPrice()
   {
     final @NotNull String SELECT_SQL = """
-      select avg(cast(price as numeric)) as avg from positions join invoices_positions
+      select products.name, avg(cast(price as numeric)) as avg from positions join invoices_positions
       on positions.id = invoices_positions.position_id
       join invoices
       on invoices.id = invoices_positions.invoice_id
-      where date >= ? and date <= ?""";
+      join products
+      on products.id = positions.product_id
+      where date >= ? and date <= ?
+      group by products.name
+      order by products.name""";
 
     try (var connection = getConnection())
     {

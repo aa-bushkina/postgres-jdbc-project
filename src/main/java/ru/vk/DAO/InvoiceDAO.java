@@ -1,5 +1,6 @@
 package ru.vk.DAO;
 
+import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
 import ru.vk.entities.Invoice;
 
@@ -13,6 +14,7 @@ public final class InvoiceDAO implements Dao<Invoice>
 {
   private final @NotNull Connection connection;
 
+  @Inject
   public InvoiceDAO(@NotNull Connection connection)
   {
     this.connection = connection;
