@@ -2,6 +2,7 @@ package ru.vk.application;
 
 import com.google.inject.AbstractModule;
 import org.jetbrains.annotations.NotNull;
+import ru.vk.application.utils.DBProperties;
 
 public class ApplicationModule extends AbstractModule
 {
@@ -21,6 +22,8 @@ public class ApplicationModule extends AbstractModule
   protected void configure()
   {
     bind(DBProperties.class).toInstance(new DBProperties(args[0], args[1], args[2], args[3]));
+    bind(FlywayInitializer.class).toInstance(new FlywayInitializer(
+      new DBProperties(args[0], args[1], args[2], args[3])));
   }
 
   private boolean checkArgs(@NotNull final String[] args)

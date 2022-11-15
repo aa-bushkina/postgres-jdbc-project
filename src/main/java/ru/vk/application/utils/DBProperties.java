@@ -1,4 +1,4 @@
-package ru.vk.application;
+package ru.vk.application.utils;
 
 import org.jetbrains.annotations.NotNull;
 

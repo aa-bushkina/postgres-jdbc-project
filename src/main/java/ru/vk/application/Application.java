@@ -2,6 +2,7 @@ package ru.vk.application;
 
 import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
+import ru.vk.application.utils.DBProperties;
 import ru.vk.application.utils.ProductInfo;
 import ru.vk.entities.Organization;
 import ru.vk.entities.Product;
@@ -13,18 +14,21 @@ import java.util.*;
 public class Application
 {
   @NotNull
-  final private DBProperties DBProperties;
+  final private ru.vk.application.utils.DBProperties DBProperties;
+
+  @NotNull
+  final private FlywayInitializer initializer;
 
   @Inject
-  public Application(@NotNull final DBProperties DBProperties)
+  public Application(@NotNull final DBProperties DBProperties, @NotNull FlywayInitializer initializer)
   {
     this.DBProperties = DBProperties;
+    this.initializer = initializer;
   }
 
   public void makeDB()
   {
-    FlywayInitializer initializer = new FlywayInitializer(DBProperties);
-    initializer.initDB();
+    initializer.initDB("db");
   }
 
   private Connection getConnection() throws SQLException
