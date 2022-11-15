@@ -26,9 +26,9 @@ public class Application
     this.initializer = initializer;
   }
 
-  public void makeDB()
+  public void makeDB(@NotNull final String path)
   {
-    initializer.initDB("db");
+    initializer.initDB(path);
   }
 
   private Connection getConnection() throws SQLException
@@ -39,7 +39,7 @@ public class Application
       DBProperties.password());
   }
 
-  public Map<Organization, Integer> getTop10OrganizationByQuantity()
+  public Map<Organization, Integer> getTop10OrganizationsByQuantity()
   {
     final @NotNull String SELECT_SQL = """
       select organizations.id, organizations.name, organizations.inn,

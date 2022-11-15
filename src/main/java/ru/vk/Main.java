@@ -11,10 +11,10 @@ public class Main
   public static void main(@NotNull String[] args)
   {
     final Injector injector = Guice.createInjector(new ApplicationModule(args));
-    injector.getInstance(Application.class).makeDB();
+    injector.getInstance(Application.class).makeDB("db");
 
     System.out.println("Выбрать первые 10 поставщиков по количеству поставленного товара\n");
-    System.out.println(injector.getInstance(Application.class).getTop10OrganizationByQuantity());
+    System.out.println(injector.getInstance(Application.class).getTop10OrganizationsByQuantity());
 
     System.out.println("\nВыбрать поставщиков с количеством поставленного товара " +
       "выше указанного значения: 9000\n");
