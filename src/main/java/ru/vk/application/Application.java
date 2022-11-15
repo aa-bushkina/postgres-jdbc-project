@@ -172,17 +172,17 @@ public class Application
     return null;
   }
 
-  public double getAverageOfProductPrice()
+  public LinkedHashMap<Product, Double> getAverageOfProductPrice()
   {
     final @NotNull String SELECT_SQL = """
-      select products.name, avg(cast(price as numeric)) as avg from positions join invoices_positions
+      select products.id, products.name, products.internal_code, avg(cast(price as numeric)) as avg from positions join invoices_positions
       on positions.id = invoices_positions.position_id
       join invoices
       on invoices.id = invoices_positions.invoice_id
       join products
       on products.id = positions.product_id
       where date >= ? and date <= ?
-      group by products.name
+      group by products.id, products.name
       order by products.name""";
 
     try (var connection = getConnection())
@@ -195,17 +195,22 @@ public class Application
         statement.setDate(2, endDate);
         try (var resultSet = statement.executeQuery())
         {
-          if (resultSet.next())
+          LinkedHashMap<Product, Double> map = new LinkedHashMap<>();
+          while (resultSet.next())
           {
-            return resultSet.getDouble("avg");
+            map.put(new Product(
+              resultSet.getInt("id"),
+              resultSet.getString("name"),
+              resultSet.getString("internal_code")), resultSet.getDouble("avg"));
           }
+          return map;
         }
       }
     } catch (SQLException exception)
     {
       exception.printStackTrace();
     }
-    return 0;
+    return null;
   }
 
   public Map<Organization, List<Product>> getProductsListByOrganizations()
