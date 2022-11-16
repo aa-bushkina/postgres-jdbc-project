@@ -15,19 +15,6 @@ class ProductDAOTest extends AbstractTest
   @NotNull
   private ProductDAO productDAO;
 
-  @Inject
-  @NotNull
-  private Application application;
-
-  @Inject
-  @NotNull
-  private String path = "db.productTest";
-  @BeforeAll
-  public void setUp()
-  {
-    application.makeDB(path);
-  }
-
   @Test
   @DisplayName("Получение товара из БД")
   void get()

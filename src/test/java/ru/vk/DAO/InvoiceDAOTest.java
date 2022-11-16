@@ -8,12 +8,6 @@ import java.sql.SQLException;
 
 class InvoiceDAOTest extends AbstractTest
 {
-
-  private void setUp() throws SQLException
-  {
-
-  }
-
   @Test
   @DisplayName("Получение накладной из БД")
   void get()
