@@ -5,9 +5,11 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.vk.AbstractTest;
+import ru.vk.entities.Invoice;
 import ru.vk.entities.Product;
 
 import javax.inject.Named;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +56,9 @@ class ProductDAOTest extends AbstractTest
   @DisplayName("Добавление нового товара в БД")
   void save()
   {
+    final Product product = new Product(16, "product16", "383jf9284f");
+    productDAO.save(product);
+    assertThat((List<Product>)productDAO.all(), hasItem(product));
   }
 
   @Test

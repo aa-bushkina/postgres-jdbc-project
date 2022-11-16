@@ -6,15 +6,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.vk.AbstractTest;
 import ru.vk.entities.Invoice;
-import ru.vk.entities.Product;
 
 import javax.inject.Named;
-import javax.xml.crypto.Data;
 import java.sql.Date;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 class InvoiceDAOTest extends AbstractTest
 {
@@ -57,7 +55,9 @@ class InvoiceDAOTest extends AbstractTest
   @DisplayName("Добавление новой накладной в БД")
   void save()
   {
-
+    final Invoice invoice = new Invoice(16, "0011001100", Date.valueOf("2022-11-16"), 1);
+    invoiceDAO.save(invoice);
+    assertThat((List<Invoice>)invoiceDAO.all(), hasItem(invoice));
   }
 
   @Test

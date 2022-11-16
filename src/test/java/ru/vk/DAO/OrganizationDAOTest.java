@@ -5,13 +5,16 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.vk.AbstractTest;
+import ru.vk.entities.Invoice;
 import ru.vk.entities.Organization;
 
 import javax.inject.Named;
+import java.sql.Date;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 
 class OrganizationDAOTest extends AbstractTest
 {
@@ -54,6 +57,9 @@ class OrganizationDAOTest extends AbstractTest
   @DisplayName("Добавление новой организации в БД")
   void save()
   {
+    final Organization organization = new Organization(16, "organization16", "3344332245", "1212115623");
+    organizationDAO.save(organization);
+    assertThat((List<Organization>)organizationDAO.all(), hasItem(organization));
   }
 
   @Test
