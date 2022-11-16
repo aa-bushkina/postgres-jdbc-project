@@ -2,6 +2,8 @@ package ru.vk.entities;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public final class Organization
 {
   public final int id;
@@ -19,6 +21,22 @@ public final class Organization
     this.name = name;
     this.inn = inn;
     this.paymentAccount = paymentAccount;
+  }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    final Organization other = (Organization) obj;
+    return this.id == other.id
+      && this.name.equals(other.name)
+      && this.inn.equals(other.inn)
+      && this.paymentAccount.equals(other.paymentAccount);
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return Objects.hash(id, name, inn, paymentAccount);
   }
 
   @Override

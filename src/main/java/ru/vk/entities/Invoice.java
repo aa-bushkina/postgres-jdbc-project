@@ -3,6 +3,7 @@ package ru.vk.entities;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Date;
+import java.util.Objects;
 
 public final class Invoice
 {
@@ -19,6 +20,22 @@ public final class Invoice
     this.num = num;
     this.date = date;
     this.organization_id = organization_id;
+  }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    final Invoice other = (Invoice) obj;
+    return this.id == other.id
+      && this.num.equals(other.num)
+      && this.date.equals(other.date)
+      && this.organization_id == other.organization_id;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return Objects.hash(id, num, date, organization_id);
   }
 
   @Override

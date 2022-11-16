@@ -3,6 +3,7 @@ package ru.vk.entities;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public final class Position
 {
@@ -17,6 +18,22 @@ public final class Position
     this.price = price;
     this.product_id = product_id;
     this.quantity = quantity;
+  }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    final Position other = (Position) obj;
+    return this.id == other.id
+      && this.price.equals(other.price)
+      && (this.product_id == other.product_id)
+      && (this.quantity == other.quantity);
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return Objects.hash(id, price, product_id, quantity);
   }
 
   @Override
