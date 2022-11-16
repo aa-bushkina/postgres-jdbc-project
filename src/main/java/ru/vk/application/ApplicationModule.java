@@ -21,9 +21,9 @@ public class ApplicationModule extends AbstractModule
   @Override
   protected void configure()
   {
-    bind(DBProperties.class).toInstance(new DBProperties(args[0], args[1], args[2], args[3]));
-    bind(FlywayInitializer.class).toInstance(new FlywayInitializer(
-      new DBProperties(args[0], args[1], args[2], args[3])));
+    DBProperties properties = new DBProperties(args[0], args[1], args[2], args[3]);
+    bind(DBProperties.class).toInstance(properties);
+    bind(FlywayInitializer.class).toInstance(new FlywayInitializer(properties));
   }
 
   private boolean checkArgs(@NotNull final String[] args)

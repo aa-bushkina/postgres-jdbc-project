@@ -7,7 +7,7 @@ import ru.vk.application.utils.DBProperties;
 public class FlywayInitializer
 {
   @NotNull
-  final private ru.vk.application.utils.DBProperties DBProperties;
+  final private DBProperties DBProperties;
 
   public FlywayInitializer(@NotNull final DBProperties dbProperties)
   {

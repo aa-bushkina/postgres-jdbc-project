@@ -14,7 +14,7 @@ import java.util.*;
 public class Application
 {
   @NotNull
-  final private ru.vk.application.utils.DBProperties DBProperties;
+  final private DBProperties DBProperties;
 
   @NotNull
   final private FlywayInitializer initializer;
@@ -125,7 +125,7 @@ public class Application
     return null;
   }
 
-  public LinkedHashSet<ProductInfo> getEverydayProductCharacteristics()
+  public Set<ProductInfo> getEverydayProductCharacteristics()
   {
     final @NotNull String SELECT_SQL = """
       select date, products.id, products.name, products.internal_code,
@@ -176,7 +176,7 @@ public class Application
     return null;
   }
 
-  public LinkedHashMap<Product, Double> getAverageOfProductPrice()
+  public Map<Product, Double> getAverageOfProductPrice()
   {
     final @NotNull String SELECT_SQL = """
       select products.id, products.name, products.internal_code, avg(cast(price as numeric)) as avg from positions join invoices_positions
