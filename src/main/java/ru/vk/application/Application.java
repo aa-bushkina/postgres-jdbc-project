@@ -220,7 +220,7 @@ public class Application
   public Map<Organization, List<Product>> getProductsListByOrganizations()
   {
     final @NotNull String SELECT_SQL = """
-      select organizations.id as org_id, organizations.name, organizations.inn,
+      select organizations.id as org_id, organizations.name as org_name, organizations.inn,
       organizations.payment_account, products.id as pr_id, products.name, products.internal_code
       from organizations left join invoices
       on invoices.organization_id=organizations.id
@@ -238,8 +238,8 @@ public class Application
              connection.prepareStatement(SELECT_SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
                ResultSet.CONCUR_UPDATABLE))
       {
-        final Date startDate = Date.valueOf("2022-11-01");
-        final Date endDate = Date.valueOf("2022-11-06");
+        final Date startDate = Date.valueOf("2022-11-05");
+        final Date endDate = Date.valueOf("2022-11-09");
         statement.setDate(1, startDate);
         statement.setDate(2, endDate);
         try (var resultSet = statement.executeQuery())
@@ -261,8 +261,8 @@ public class Application
             {
               productsList.add(new Product(
                 resultSet.getInt("pr_id"),
-                resultSet.getString("internal_code"),
-                resultSet.getString("name")));
+                resultSet.getString("name"),
+                resultSet.getString("internal_code")));
               if (!resultSet.isLast())
               {
                 continue;
@@ -271,7 +271,7 @@ public class Application
             resultSet.previous();
             map.put(new Organization(
                 resultSet.getInt("org_id"),
-                resultSet.getString("name"),
+                resultSet.getString("org_name"),
                 resultSet.getString("inn"),
                 resultSet.getString("payment_account")),
               new ArrayList<>(productsList));

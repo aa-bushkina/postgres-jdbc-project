@@ -13,7 +13,7 @@ public abstract class AbstractTest
   final String[] args = {"jdbc:postgresql://localhost/", "testTask", "postgres", "postgres"};
 
   @NotNull
-  final String path = "db.queriesTest";
+  final String path = "db/test";
 
   @BeforeEach
   public void beforeEach()

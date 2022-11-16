@@ -21,12 +21,12 @@ public record ProductInfo(@NotNull Date date,
     return quantity == info.quantity
       && date.equals(info.date)
       && product.equals(info.product)
-      && sum.equals(info.sum);
+      && sum.compareTo(info.sum) == 0;
   }
 
   @Override
   public int hashCode()
   {
-    return Objects.hash(date, product, quantity, sum);
+    return Objects.hash(date, product, quantity, sum.doubleValue());
   }
 }
