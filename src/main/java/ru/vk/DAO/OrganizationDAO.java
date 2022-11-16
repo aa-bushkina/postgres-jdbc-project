@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.vk.entities.Organization;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,18 +22,19 @@ public final class OrganizationDAO implements Dao<Organization>
   @Override
   public @NotNull Organization get(int id)
   {
-    try (var statement = connection.createStatement())
+    try
     {
-      try (var resultSet = statement
-        .executeQuery("SELECT id, name, inn, payment_account FROM organizations WHERE id = ?" +  (Integer)id))
+      var preparedStatement = connection
+        .prepareStatement("SELECT id, name, inn, payment_account FROM organizations WHERE id = ?");
+      preparedStatement.setInt(1, id);
+      preparedStatement.execute();
+      ResultSet resultSet = preparedStatement.getResultSet();
+      if (resultSet.next())
       {
-        if (resultSet.next())
-        {
-          return new Organization(resultSet.getInt("id"),
-            resultSet.getString("name"),
-            resultSet.getString("inn"),
-            resultSet.getString("payment_account"));
-        }
+        return new Organization(resultSet.getInt("id"),
+          resultSet.getString("name"),
+          resultSet.getString("inn"),
+          resultSet.getString("payment_account"));
       }
     } catch (SQLException e)
     {

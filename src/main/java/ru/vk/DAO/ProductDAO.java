@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.vk.entities.Product;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +22,14 @@ public final class ProductDAO implements Dao<Product>
   @Override
   public @NotNull Product get(int id)
   {
-    try (var statement = connection.createStatement())
+    try
     {
-      try (var resultSet = statement
-        .executeQuery("SELECT id, name, internal_code FROM products WHERE id = ?" + id))
+      var preparedStatement = connection
+        .prepareStatement("SELECT id, name, internal_code FROM products WHERE id = ?" + id);
       {
+        preparedStatement.setInt(1, id);
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getResultSet();
         if (resultSet.next())
         {
           return new Product(resultSet.getInt("id"),

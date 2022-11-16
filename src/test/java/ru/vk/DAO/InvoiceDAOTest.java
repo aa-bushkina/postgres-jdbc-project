@@ -22,6 +22,18 @@ class InvoiceDAOTest extends AbstractTest
   private Dao invoiceDAO;
 
   @Test
+  @DisplayName("Получение накладной из БД")
+  void get()
+  {
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final String uniqueNum = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final Invoice invoice = new Invoice(uniqueId, uniqueNum, Date.valueOf("2022-11-16"), 1);
+    invoiceDAO.save(invoice);
+    assertThat(invoiceDAO.get(uniqueId), equalTo(invoice));
+    invoiceDAO.delete(invoice);
+  }
+
+  @Test
   @DisplayName("Просмотр всех накладных в БД")
   void all()
   {
@@ -54,6 +66,20 @@ class InvoiceDAOTest extends AbstractTest
     final Invoice invoice = new Invoice(uniqueId, uniqueNum, Date.valueOf("2022-11-16"), 1);
     invoiceDAO.save(invoice);
     assertThat((List<Invoice>) invoiceDAO.all(), hasItem(invoice));
+    invoiceDAO.delete(invoice);
+  }
+
+  @Test
+  @DisplayName("Обновление данных накладной из БД")
+  void update()
+  {
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final String uniqueNum = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final Invoice invoice = new Invoice(uniqueId, uniqueNum, Date.valueOf("2022-11-16"), 1);
+    invoiceDAO.save(invoice);
+    final Invoice updatedInvoice = new Invoice(uniqueId, uniqueNum, Date.valueOf("2022-11-16"), 1);
+    invoiceDAO.update(updatedInvoice);
+    assertThat(invoiceDAO.get(uniqueId), equalTo(updatedInvoice));
     invoiceDAO.delete(invoice);
   }
 

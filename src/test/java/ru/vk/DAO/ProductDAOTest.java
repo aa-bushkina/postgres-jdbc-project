@@ -21,6 +21,18 @@ class ProductDAOTest extends AbstractTest
   private Dao productDAO;
 
   @Test
+  @DisplayName("Получение товара из БД")
+  void get()
+  {
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final String uniqueInternalCode = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final Product product = new Product(uniqueId, "product", uniqueInternalCode);
+    productDAO.save(product);
+    assertThat(productDAO.get(uniqueId), equalTo(product));
+    productDAO.delete(product);
+  }
+
+  @Test
   @DisplayName("Просмотр всех товаров в БД")
   void all()
   {
@@ -52,6 +64,20 @@ class ProductDAOTest extends AbstractTest
     final Product product = new Product(uniqueId, "product", uniqueInternalCode);
     productDAO.save(product);
     assertThat((List<Product>) productDAO.all(), hasItem(product));
+    productDAO.delete(product);
+  }
+
+  @Test
+  @DisplayName("Обновление данных товара из БД")
+  void update()
+  {
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final String uniqueInternalCode = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final Product product = new Product(uniqueId, "product", uniqueInternalCode);
+    productDAO.save(product);
+    final Product updatedProduct = new Product(uniqueId, "productUpdate", uniqueInternalCode);
+    productDAO.update(updatedProduct);
+    assertThat(productDAO.get(uniqueId), equalTo(updatedProduct));
     productDAO.delete(product);
   }
 

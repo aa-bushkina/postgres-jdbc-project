@@ -23,6 +23,17 @@ class PositionDAOTest extends AbstractTest
   private Dao positionDAO;
 
   @Test
+  @DisplayName("Получение позиции накладной из БД")
+  void get()
+  {
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final Position position = new Position(uniqueId, BigDecimal.valueOf(23944.55), 4, 390);
+    positionDAO.save(position);
+    assertThat(positionDAO.get(uniqueId), equalTo(position));
+    positionDAO.delete(position);
+  }
+
+  @Test
   @DisplayName("Просмотр всех позиции накладных в БД")
   void all()
   {
@@ -54,6 +65,19 @@ class PositionDAOTest extends AbstractTest
     final Position position = new Position(uniqueId, BigDecimal.valueOf(23944.55), 4, 390);
     positionDAO.save(position);
     assertThat((List<Position>) positionDAO.all(), hasItem(position));
+    positionDAO.delete(position);
+  }
+
+  @Test
+  @DisplayName("Обновление данных позиции накладной из БД")
+  void update()
+  {
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final Position position = new Position(uniqueId, BigDecimal.valueOf(23944.55), 4, 390);
+    positionDAO.save(position);
+    final Position updatedPosition = new Position(uniqueId, BigDecimal.valueOf(23944.55), 4, 2000);
+    positionDAO.update(uniqueId);
+    assertThat(positionDAO.get(uniqueId), equalTo(updatedPosition));
     positionDAO.delete(position);
   }
 

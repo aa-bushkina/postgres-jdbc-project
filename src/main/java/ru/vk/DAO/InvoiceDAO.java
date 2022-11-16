@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.vk.entities.Invoice;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +24,14 @@ public final class InvoiceDAO implements Dao<Invoice>
   @Override
   public @NotNull Invoice get(int id)
   {
-    try (var statement = connection.createStatement())
+    try
     {
-      try (var resultSet = statement
-        .executeQuery("SELECT id, num, date, organization_id FROM invoices WHERE id = ?" + id))
+      var preparedStatement = connection
+        .prepareStatement("SELECT * FROM invoices WHERE id = ?");
       {
+        preparedStatement.setInt(1, id);
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getResultSet();
         if (resultSet.next())
         {
           return new Invoice(resultSet.getInt("id"),

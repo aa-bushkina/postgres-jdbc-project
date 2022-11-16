@@ -5,6 +5,7 @@ import ru.vk.entities.Position;
 
 import java.math.RoundingMode;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +23,14 @@ public final class PositionDAO implements Dao<Position>
   @Override
   public @NotNull Position get(int id)
   {
-    try (var statement = connection.createStatement())
+    try
     {
-      try (var resultSet = statement
-        .executeQuery("SELECT id, price, product_id, quantity FROM positions WHERE id = ?" + id))
+      var preparedStatement = connection
+        .prepareStatement("SELECT id, price, product_id, quantity FROM positions WHERE id = ?");
       {
+        preparedStatement.setInt(1, id);
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getResultSet();
         if (resultSet.next())
         {
           return new Position(resultSet.getInt("id"),

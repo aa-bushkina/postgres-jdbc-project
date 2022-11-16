@@ -21,6 +21,19 @@ class OrganizationDAOTest extends AbstractTest
   private Dao organizationDAO;
 
   @Test
+  @DisplayName("Получение организации из БД")
+  void get()
+  {
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final String uniqueInn = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final String uniquePaymentAccount = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final Organization organization = new Organization(uniqueId, "organization", uniqueInn, uniquePaymentAccount);
+    organizationDAO.save(organization);
+    assertThat(organizationDAO.get(uniqueId), equalTo(organization));
+    organizationDAO.delete(organization);
+  }
+
+  @Test
   @DisplayName("Просмотр всех организаций в БД")
   void all()
   {
@@ -54,6 +67,20 @@ class OrganizationDAOTest extends AbstractTest
     final Organization organization = new Organization(uniqueId, "organization", uniqueInn, uniquePaymentAccount);
     organizationDAO.save(organization);
     assertThat((List<Organization>) organizationDAO.all(), hasItem(organization));
+    organizationDAO.delete(organization);
+  }
+
+  @Test
+  @DisplayName("Обновление данных организации из БД")
+  void update()
+  {
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final String uniqueInn = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final String uniquePaymentAccount = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final Organization organization = new Organization(uniqueId, "organization", uniqueInn, uniquePaymentAccount);
+    organizationDAO.save(organization);
+    final Organization updatedOrganization = new Organization(uniqueId, "organization", uniqueInn, uniquePaymentAccount);
+    assertThat(organizationDAO.get(uniqueId), equalTo(updatedOrganization));
     organizationDAO.delete(organization);
   }
 
