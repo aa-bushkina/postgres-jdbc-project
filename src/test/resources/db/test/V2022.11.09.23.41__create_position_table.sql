@@ -1,7 +1,7 @@
 CREATE TABLE positions
 (
     id         SERIAL NOT NULL,
-    price      MONEY  NOT NULL,
+    price      DECIMAL  NOT NULL,
     product_id INT    NOT NULL REFERENCES products (id)
         ON UPDATE CASCADE
         ON DELETE SET NULL,
