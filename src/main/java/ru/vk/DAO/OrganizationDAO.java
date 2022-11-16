@@ -69,11 +69,12 @@ public final class OrganizationDAO implements Dao<Organization>
   public void save(@NotNull Organization entity)
   {
     try (var preparedStatement = connection
-      .prepareStatement("INSERT INTO organizations(name, inn, payment_account) VALUES(?,?,?)"))
+      .prepareStatement("INSERT INTO organizations(id, name, inn, payment_account) VALUES(?,?,?,?)"))
     {
-      preparedStatement.setString(1, entity.name);
-      preparedStatement.setString(2, entity.inn);
-      preparedStatement.setString(3, entity.paymentAccount);
+      preparedStatement.setInt(1, entity.id);
+      preparedStatement.setString(2, entity.name);
+      preparedStatement.setString(3, entity.inn);
+      preparedStatement.setString(4, entity.paymentAccount);
       preparedStatement.executeUpdate();
     } catch (SQLException e)
     {

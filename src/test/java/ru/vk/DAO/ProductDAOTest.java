@@ -5,12 +5,9 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.vk.AbstractTest;
-import ru.vk.entities.Invoice;
 import ru.vk.entities.Product;
 
 import javax.inject.Named;
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -56,9 +53,12 @@ class ProductDAOTest extends AbstractTest
   @DisplayName("Добавление нового товара в БД")
   void save()
   {
-    final Product product = new Product(16, "product16", "383jf9284f");
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final String uniqueInternalCode = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final Product product = new Product(uniqueId, "product17", uniqueInternalCode);
     productDAO.save(product);
-    assertThat((List<Product>)productDAO.all(), hasItem(product));
+    assertThat((List<Product>) productDAO.all(), hasItem(product));
+    productDAO.delete(product);
   }
 
   @Test
@@ -71,5 +71,12 @@ class ProductDAOTest extends AbstractTest
   @DisplayName("Удаление товара из БД")
   void delete()
   {
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final String uniqueInternalCode = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final Product product = new Product(uniqueId, "product17", uniqueInternalCode);
+    productDAO.save(product);
+    assertThat((List<Product>) productDAO.all(), hasItem(product));
+    productDAO.delete(product);
+    assertThat((List<Product>) productDAO.all(), not(hasItem(product)));
   }
 }

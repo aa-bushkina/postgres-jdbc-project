@@ -70,11 +70,12 @@ public final class PositionDAO implements Dao<Position>
   public void save(@NotNull Position entity)
   {
     try (var preparedStatement = connection
-      .prepareStatement("INSERT INTO positions(price, product_id, quantity) VALUES(?,?,?)"))
+      .prepareStatement("INSERT INTO positions(id, price, product_id, quantity) VALUES(?,?,?,?)"))
     {
-      preparedStatement.setBigDecimal(1, entity.price);
-      preparedStatement.setInt(2, entity.product_id);
-      preparedStatement.setInt(3, entity.quantity);
+      preparedStatement.setInt(1, entity.id);
+      preparedStatement.setBigDecimal(2, entity.price);
+      preparedStatement.setInt(3, entity.product_id);
+      preparedStatement.setInt(4, entity.quantity);
       preparedStatement.executeUpdate();
     } catch (SQLException e)
     {

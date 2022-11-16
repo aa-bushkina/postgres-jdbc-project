@@ -5,16 +5,13 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.vk.AbstractTest;
-import ru.vk.entities.Invoice;
 import ru.vk.entities.Organization;
 
 import javax.inject.Named;
-import java.sql.Date;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.*;
 
 class OrganizationDAOTest extends AbstractTest
 {
@@ -57,9 +54,13 @@ class OrganizationDAOTest extends AbstractTest
   @DisplayName("Добавление новой организации в БД")
   void save()
   {
-    final Organization organization = new Organization(16, "organization16", "3344332245", "1212115623");
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final String uniqueInn = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final String uniquePaymentAccount = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final Organization organization = new Organization(uniqueId, "organization", uniqueInn, uniquePaymentAccount);
     organizationDAO.save(organization);
-    assertThat((List<Organization>)organizationDAO.all(), hasItem(organization));
+    assertThat((List<Organization>) organizationDAO.all(), hasItem(organization));
+    organizationDAO.delete(organization);
   }
 
   @Test
@@ -72,5 +73,13 @@ class OrganizationDAOTest extends AbstractTest
   @DisplayName("Удаление организации из БД")
   void delete()
   {
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final String uniqueInn = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final String uniquePaymentAccount = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final Organization organization = new Organization(uniqueId, "organization", uniqueInn, uniquePaymentAccount);
+    organizationDAO.save(organization);
+    assertThat((List<Organization>) organizationDAO.all(), hasItem(organization));
+    organizationDAO.delete(organization);
+    assertThat((List<Organization>) organizationDAO.all(), not(hasItem(organization)));
   }
 }

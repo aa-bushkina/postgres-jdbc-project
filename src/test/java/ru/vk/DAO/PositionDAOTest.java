@@ -5,19 +5,15 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.vk.AbstractTest;
-import ru.vk.entities.Invoice;
 import ru.vk.entities.Position;
-import ru.vk.entities.Product;
 
 import javax.inject.Named;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Date;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.*;
 
 class PositionDAOTest extends AbstractTest
 {
@@ -60,9 +56,10 @@ class PositionDAOTest extends AbstractTest
   @DisplayName("Добавление новой позиции накладной в БД")
   void save()
   {
-    final Position position = new Position(16,  BigDecimal.valueOf(23944.55), 4, 390);
+    final Position position = new Position(16, BigDecimal.valueOf(23944.55), 4, 390);
     positionDAO.save(position);
-    assertThat((List<Position>)positionDAO.all(), hasItem(position));
+    assertThat((List<Position>) positionDAO.all(), hasItem(position));
+    positionDAO.delete(position);
   }
 
   @Test
@@ -75,5 +72,11 @@ class PositionDAOTest extends AbstractTest
   @DisplayName("Удаление позиции накладной из БД")
   void delete()
   {
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final Position position = new Position(uniqueId, BigDecimal.valueOf(239544.55), 5, 3970);
+    positionDAO.save(position);
+    assertThat((List<Position>) positionDAO.all(), hasItem(position));
+    positionDAO.delete(position);
+    assertThat((List<Position>) positionDAO.all(), not(hasItem(position)));
   }
 }

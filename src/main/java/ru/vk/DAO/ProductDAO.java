@@ -67,10 +67,11 @@ public final class ProductDAO implements Dao<Product>
   public void save(@NotNull Product entity)
   {
     try (var preparedStatement = connection
-      .prepareStatement("INSERT INTO products(name, internal_code) VALUES(?,?)"))
+      .prepareStatement("INSERT INTO products(id, name, internal_code) VALUES(?,?,?)"))
     {
-      preparedStatement.setString(1, entity.name);
-      preparedStatement.setString(2, entity.internalCode);
+      preparedStatement.setInt(1, entity.id);
+      preparedStatement.setString(2, entity.name);
+      preparedStatement.setString(3, entity.internalCode);
       preparedStatement.executeUpdate();
     } catch (SQLException e)
     {

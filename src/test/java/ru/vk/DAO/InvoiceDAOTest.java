@@ -55,9 +55,12 @@ class InvoiceDAOTest extends AbstractTest
   @DisplayName("Добавление новой накладной в БД")
   void save()
   {
-    final Invoice invoice = new Invoice(16, "0011001100", Date.valueOf("2022-11-16"), 1);
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final String uniqueNum = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final Invoice invoice = new Invoice(uniqueId, uniqueNum, Date.valueOf("2022-11-16"), 1);
     invoiceDAO.save(invoice);
-    assertThat((List<Invoice>)invoiceDAO.all(), hasItem(invoice));
+    assertThat((List<Invoice>) invoiceDAO.all(), hasItem(invoice));
+    invoiceDAO.delete(invoice);
   }
 
   @Test
@@ -70,5 +73,12 @@ class InvoiceDAOTest extends AbstractTest
   @DisplayName("Удаление накладной из БД")
   void delete()
   {
+    final int uniqueId = (int) (Math.random() * 1000) + 20;
+    final String uniqueNum = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
+    final Invoice invoice = new Invoice(uniqueId, uniqueNum, Date.valueOf("2022-11-16"), 1);
+    invoiceDAO.save(invoice);
+    assertThat((List<Invoice>) invoiceDAO.all(), hasItem(invoice));
+    invoiceDAO.delete(invoice);
+    assertThat((List<Invoice>) invoiceDAO.all(), not(hasItem(invoice)));
   }
 }

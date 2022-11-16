@@ -71,11 +71,12 @@ public final class InvoiceDAO implements Dao<Invoice>
   public void save(@NotNull Invoice entity)
   {
     try (var preparedStatement = connection
-      .prepareStatement("INSERT INTO invoices(num, date, organization_id) VALUES(?,?,?)"))
+      .prepareStatement("INSERT INTO invoices(id, num, date, organization_id) VALUES(?,?,?,?)"))
     {
-      preparedStatement.setString(1, entity.num);
-      preparedStatement.setDate(2, entity.date);
-      preparedStatement.setInt(3, entity.organization_id);
+      preparedStatement.setInt(1, entity.id);
+      preparedStatement.setString(2, entity.num);
+      preparedStatement.setDate(3, entity.date);
+      preparedStatement.setInt(4, entity.organization_id);
       preparedStatement.executeUpdate();
     } catch (SQLException e)
     {
