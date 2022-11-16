@@ -22,12 +22,6 @@ class InvoiceDAOTest extends AbstractTest
   private Dao invoiceDAO;
 
   @Test
-  @DisplayName("Получение накладной из БД")
-  void get()
-  {
-  }
-
-  @Test
   @DisplayName("Просмотр всех накладных в БД")
   void all()
   {
@@ -61,12 +55,6 @@ class InvoiceDAOTest extends AbstractTest
     invoiceDAO.save(invoice);
     assertThat((List<Invoice>) invoiceDAO.all(), hasItem(invoice));
     invoiceDAO.delete(invoice);
-  }
-
-  @Test
-  @DisplayName("Обновление данных накладной из БД")
-  void update()
-  {
   }
 
   @Test

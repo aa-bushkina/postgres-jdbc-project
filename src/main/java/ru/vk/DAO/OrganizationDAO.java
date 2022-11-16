@@ -24,7 +24,7 @@ public final class OrganizationDAO implements Dao<Organization>
     try (var statement = connection.createStatement())
     {
       try (var resultSet = statement
-        .executeQuery("SELECT id, name, inn, payment_account FROM organizations WHERE id = ?" + id))
+        .executeQuery("SELECT id, name, inn, payment_account FROM organizations WHERE id = ?" +  (Integer)id))
       {
         if (resultSet.next())
         {
@@ -38,7 +38,7 @@ public final class OrganizationDAO implements Dao<Organization>
     {
       System.out.println(e.getMessage());
     }
-    throw new IllegalStateException("Record with id " + id + "not found");
+    throw new IllegalStateException("Record with id " + id + " not found");
   }
 
   @Override

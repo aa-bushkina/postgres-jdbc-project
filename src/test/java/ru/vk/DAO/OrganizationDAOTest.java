@@ -21,12 +21,6 @@ class OrganizationDAOTest extends AbstractTest
   private Dao organizationDAO;
 
   @Test
-  @DisplayName("Получение организации из БД")
-  void get()
-  {
-  }
-
-  @Test
   @DisplayName("Просмотр всех организаций в БД")
   void all()
   {
@@ -61,12 +55,6 @@ class OrganizationDAOTest extends AbstractTest
     organizationDAO.save(organization);
     assertThat((List<Organization>) organizationDAO.all(), hasItem(organization));
     organizationDAO.delete(organization);
-  }
-
-  @Test
-  @DisplayName("Обновление данных организации из БД")
-  void update()
-  {
   }
 
   @Test

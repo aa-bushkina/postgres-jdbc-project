@@ -24,7 +24,7 @@ public final class ProductDAO implements Dao<Product>
     try (var statement = connection.createStatement())
     {
       try (var resultSet = statement
-        .executeQuery("SELECT id, name, internal_code,  FROM products WHERE id = ?" + id))
+        .executeQuery("SELECT id, name, internal_code FROM products WHERE id = ?" + id))
       {
         if (resultSet.next())
         {
