@@ -4,8 +4,9 @@ import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.vk.AbstractTest;
 
-class OrganizationDAOTest extends AbstractDAOTest
+class OrganizationDAOTest extends AbstractTest
 {
   @Inject
   @NotNull
