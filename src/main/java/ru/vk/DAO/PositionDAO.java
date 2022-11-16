@@ -3,6 +3,7 @@ package ru.vk.DAO;
 import org.jetbrains.annotations.NotNull;
 import ru.vk.entities.Position;
 
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public final class PositionDAO implements Dao<Position>
         while (resultSet.next())
         {
           result.add(new Position(resultSet.getInt("id"),
-            resultSet.getBigDecimal("price"),
+            resultSet.getBigDecimal("price").setScale(2, RoundingMode.CEILING),
             resultSet.getInt("product_id"),
             resultSet.getInt("quantity")));
         }

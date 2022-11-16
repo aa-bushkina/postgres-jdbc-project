@@ -24,13 +24,13 @@ public final class ProductDAO implements Dao<Product>
     try (var statement = connection.createStatement())
     {
       try (var resultSet = statement
-        .executeQuery("SELECT id, internal_code, name FROM products WHERE id = ?" + id))
+        .executeQuery("SELECT id, name, internal_code,  FROM products WHERE id = ?" + id))
       {
         if (resultSet.next())
         {
           return new Product(resultSet.getInt("id"),
-            resultSet.getString("internal_code"),
-            resultSet.getString("name"));
+            resultSet.getString("name"),
+            resultSet.getString("internal_code"));
         }
       }
     } catch (SQLException e)
@@ -51,8 +51,8 @@ public final class ProductDAO implements Dao<Product>
         while (resultSet.next())
         {
           result.add(new Product(resultSet.getInt("id"),
-            resultSet.getString("internal_code"),
-            resultSet.getString("name")));
+            resultSet.getString("name"),
+            resultSet.getString("internal_code")));
         }
         return result;
       }
@@ -67,10 +67,10 @@ public final class ProductDAO implements Dao<Product>
   public void save(@NotNull Product entity)
   {
     try (var preparedStatement = connection
-      .prepareStatement("INSERT INTO products(internal_code, name) VALUES(?,?)"))
+      .prepareStatement("INSERT INTO products(name, internal_code) VALUES(?,?)"))
     {
-      preparedStatement.setString(1, entity.internalCode);
-      preparedStatement.setString(2, entity.name);
+      preparedStatement.setString(1, entity.name);
+      preparedStatement.setString(2, entity.internalCode);
       preparedStatement.executeUpdate();
     } catch (SQLException e)
     {
@@ -82,10 +82,10 @@ public final class ProductDAO implements Dao<Product>
   public void update(@NotNull Product entity)
   {
     try (var preparedStatement = connection
-      .prepareStatement("UPDATE products SET internalCode = ?, name = ? WHERE id = ?"))
+      .prepareStatement("UPDATE products SET name = ?, internalCode = ? WHERE id = ?"))
     {
-      preparedStatement.setString(1, entity.internalCode);
-      preparedStatement.setString(2, entity.name);
+      preparedStatement.setString(1, entity.name);
+      preparedStatement.setString(2, entity.internalCode);
       preparedStatement.executeUpdate();
       preparedStatement.setInt(4, entity.id);
       preparedStatement.executeUpdate();

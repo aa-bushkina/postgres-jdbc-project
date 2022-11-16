@@ -28,7 +28,7 @@ public class DAOModule extends AbstractModule
     {
       var connection = DriverManager.getConnection(args[0] + args[1], args[2], args[3]);
       bind(Dao.class).annotatedWith(Names.named("Invoice")).toInstance(new InvoiceDAO(connection));
-      bind(Dao.class).annotatedWith(Names.named("Organizations")).toInstance(new OrganizationDAO(connection));
+      bind(Dao.class).annotatedWith(Names.named("Organization")).toInstance(new OrganizationDAO(connection));
       bind(Dao.class).annotatedWith(Names.named("Position")).toInstance(new PositionDAO(connection));
       bind(Dao.class).annotatedWith(Names.named("Product")).toInstance(new ProductDAO(connection));
     } catch (SQLException exception)
