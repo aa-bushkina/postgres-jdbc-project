@@ -14,13 +14,13 @@ public final class ProductDAO implements Dao<Product>
 {
   private final @NotNull Connection connection;
 
-  public ProductDAO(@NotNull Connection connection)
+  public ProductDAO(@NotNull final Connection connection)
   {
     this.connection = connection;
   }
 
   @Override
-  public @NotNull Product get(int id)
+  public @NotNull Product get(final int id)
   {
     try
     {
@@ -66,7 +66,7 @@ public final class ProductDAO implements Dao<Product>
   }
 
   @Override
-  public void save(@NotNull Product entity)
+  public void save(@NotNull final Product entity)
   {
     try (var preparedStatement = connection
       .prepareStatement("INSERT INTO products(id, name, internal_code) VALUES(?,?,?)"))
@@ -82,7 +82,7 @@ public final class ProductDAO implements Dao<Product>
   }
 
   @Override
-  public void update(@NotNull Product entity)
+  public void update(@NotNull final Product entity)
   {
     try (var preparedStatement = connection
       .prepareStatement("UPDATE products SET name = ?, internal_code = ? WHERE id = ?"))
@@ -98,7 +98,7 @@ public final class ProductDAO implements Dao<Product>
   }
 
   @Override
-  public void delete(@NotNull Product entity)
+  public void delete(@NotNull final Product entity)
   {
     try (var preparedStatement = connection.prepareStatement("DELETE FROM products WHERE id = ?"))
     {

@@ -15,13 +15,13 @@ public final class PositionDAO implements Dao<Position>
 {
   private final @NotNull Connection connection;
 
-  public PositionDAO(@NotNull Connection connection)
+  public PositionDAO(@NotNull final Connection connection)
   {
     this.connection = connection;
   }
 
   @Override
-  public @NotNull Position get(int id)
+  public @NotNull Position get(final int id)
   {
     try
     {
@@ -71,7 +71,7 @@ public final class PositionDAO implements Dao<Position>
   }
 
   @Override
-  public void save(@NotNull Position entity)
+  public void save(@NotNull final Position entity)
   {
     try (var preparedStatement = connection
       .prepareStatement("INSERT INTO positions(id, price, product_id, quantity) VALUES(?,?,?,?)"))
@@ -88,7 +88,7 @@ public final class PositionDAO implements Dao<Position>
   }
 
   @Override
-  public void update(@NotNull Position entity)
+  public void update(@NotNull final Position entity)
   {
     try (var preparedStatement = connection
       .prepareStatement("UPDATE positions SET price = ?, product_id = ?, quantity = ? WHERE id = ?"))
@@ -105,7 +105,7 @@ public final class PositionDAO implements Dao<Position>
   }
 
   @Override
-  public void delete(@NotNull Position entity)
+  public void delete(@NotNull final Position entity)
   {
     try (var preparedStatement = connection.prepareStatement("DELETE FROM positions WHERE id = ?"))
     {

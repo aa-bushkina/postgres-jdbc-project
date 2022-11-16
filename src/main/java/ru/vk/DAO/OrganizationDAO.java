@@ -14,13 +14,13 @@ public final class OrganizationDAO implements Dao<Organization>
 {
   private final @NotNull Connection connection;
 
-  public OrganizationDAO(@NotNull Connection connection)
+  public OrganizationDAO(@NotNull final Connection connection)
   {
     this.connection = connection;
   }
 
   @Override
-  public @NotNull Organization get(int id)
+  public @NotNull Organization get(final int id)
   {
     try
     {
@@ -68,7 +68,7 @@ public final class OrganizationDAO implements Dao<Organization>
   }
 
   @Override
-  public void save(@NotNull Organization entity)
+  public void save(@NotNull final Organization entity)
   {
     try (var preparedStatement = connection
       .prepareStatement("INSERT INTO organizations(id, name, inn, payment_account) VALUES(?,?,?,?)"))
@@ -85,7 +85,7 @@ public final class OrganizationDAO implements Dao<Organization>
   }
 
   @Override
-  public void update(@NotNull Organization entity)
+  public void update(@NotNull final Organization entity)
   {
     try (var preparedStatement = connection
       .prepareStatement("UPDATE organizations SET name = ?, inn = ?, payment_account = ? WHERE id = ?"))
@@ -102,7 +102,7 @@ public final class OrganizationDAO implements Dao<Organization>
   }
 
   @Override
-  public void delete(@NotNull Organization entity)
+  public void delete(@NotNull final Organization entity)
   {
     try (var preparedStatement = connection.prepareStatement("DELETE FROM organizations WHERE id = ?"))
     {

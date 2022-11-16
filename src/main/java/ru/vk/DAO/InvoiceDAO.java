@@ -16,13 +16,13 @@ public final class InvoiceDAO implements Dao<Invoice>
   private final @NotNull Connection connection;
 
   @Inject
-  public InvoiceDAO(@NotNull Connection connection)
+  public InvoiceDAO(@NotNull final Connection connection)
   {
     this.connection = connection;
   }
 
   @Override
-  public @NotNull Invoice get(int id)
+  public @NotNull Invoice get(final int id)
   {
     try
     {
@@ -72,7 +72,7 @@ public final class InvoiceDAO implements Dao<Invoice>
   }
 
   @Override
-  public void save(@NotNull Invoice entity)
+  public void save(@NotNull final Invoice entity)
   {
     try (var preparedStatement = connection
       .prepareStatement("INSERT INTO invoices(id, num, date, organization_id) VALUES(?,?,?,?)"))
@@ -89,7 +89,7 @@ public final class InvoiceDAO implements Dao<Invoice>
   }
 
   @Override
-  public void update(@NotNull Invoice entity)
+  public void update(@NotNull final Invoice entity)
   {
     try (var preparedStatement = connection
       .prepareStatement("UPDATE invoices SET num = ?, " +
@@ -108,7 +108,7 @@ public final class InvoiceDAO implements Dao<Invoice>
   }
 
   @Override
-  public void delete(@NotNull Invoice entity)
+  public void delete(@NotNull final Invoice entity)
   {
     try (var preparedStatement = connection
       .prepareStatement("DELETE FROM invoices WHERE id = ?"))
