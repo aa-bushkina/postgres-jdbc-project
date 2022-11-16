@@ -76,7 +76,7 @@ class PositionDAOTest extends AbstractTest
     final Position position = new Position(uniqueId, BigDecimal.valueOf(23944.55), 4, 390);
     positionDAO.save(position);
     final Position updatedPosition = new Position(uniqueId, BigDecimal.valueOf(23944.55), 4, 2000);
-    positionDAO.update(uniqueId);
+    positionDAO.update(updatedPosition);
     assertThat(positionDAO.get(uniqueId), equalTo(updatedPosition));
     positionDAO.delete(position);
   }

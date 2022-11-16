@@ -25,7 +25,7 @@ public final class ProductDAO implements Dao<Product>
     try
     {
       var preparedStatement = connection
-        .prepareStatement("SELECT id, name, internal_code FROM products WHERE id = ?" + id);
+        .prepareStatement("SELECT id, name, internal_code FROM products WHERE id = ?");
       {
         preparedStatement.setInt(1, id);
         preparedStatement.execute();

@@ -80,6 +80,7 @@ class OrganizationDAOTest extends AbstractTest
     final Organization organization = new Organization(uniqueId, "organization", uniqueInn, uniquePaymentAccount);
     organizationDAO.save(organization);
     final Organization updatedOrganization = new Organization(uniqueId, "organization", uniqueInn, uniquePaymentAccount);
+    organizationDAO.update(updatedOrganization);
     assertThat(organizationDAO.get(uniqueId), equalTo(updatedOrganization));
     organizationDAO.delete(organization);
   }
