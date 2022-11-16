@@ -26,16 +26,14 @@ public final class ProductDAO implements Dao<Product>
     {
       var preparedStatement = connection
         .prepareStatement("SELECT id, name, internal_code FROM products WHERE id = ?");
+      preparedStatement.setInt(1, id);
+      preparedStatement.execute();
+      ResultSet resultSet = preparedStatement.getResultSet();
+      if (resultSet.next())
       {
-        preparedStatement.setInt(1, id);
-        preparedStatement.execute();
-        ResultSet resultSet = preparedStatement.getResultSet();
-        if (resultSet.next())
-        {
-          return new Product(resultSet.getInt("id"),
-            resultSet.getString("name"),
-            resultSet.getString("internal_code"));
-        }
+        return new Product(resultSet.getInt("id"),
+          resultSet.getString("name"),
+          resultSet.getString("internal_code"));
       }
     } catch (SQLException e)
     {
@@ -87,12 +85,11 @@ public final class ProductDAO implements Dao<Product>
   public void update(@NotNull Product entity)
   {
     try (var preparedStatement = connection
-      .prepareStatement("UPDATE products SET name = ?, internalCode = ? WHERE id = ?"))
+      .prepareStatement("UPDATE products SET name = ?, internal_code = ? WHERE id = ?"))
     {
       preparedStatement.setString(1, entity.name);
       preparedStatement.setString(2, entity.internalCode);
-      preparedStatement.executeUpdate();
-      preparedStatement.setInt(4, entity.id);
+      preparedStatement.setInt(3, entity.id);
       preparedStatement.executeUpdate();
     } catch (SQLException e)
     {
