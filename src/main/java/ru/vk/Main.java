@@ -13,7 +13,7 @@ public class Main
     final Injector injector = Guice.createInjector(new ApplicationModule(args));
     injector.getInstance(Application.class).makeDB("db");
 
-   /* System.out.println("Выбрать первые 10 поставщиков по количеству поставленного товара\n");
+    System.out.println("Выбрать первые 10 поставщиков по количеству поставленного товара\n");
     System.out.println(injector.getInstance(Application.class).getTop10OrganizationsByQuantity());
 
     System.out.println("\nВыбрать поставщиков с количеством поставленного товара " +
@@ -22,10 +22,10 @@ public class Main
 
     System.out.println("\nЗа каждый день для каждого товара рассчитать количество и " +
       "сумму полученного товара в указанном периоде\n");
-    System.out.println(injector.getInstance(Application.class).getEverydayProductCharacteristics());*/
+    System.out.println(injector.getInstance(Application.class).getEverydayProductCharacteristics());
 
-   /* System.out.println("\nРассчитать среднюю цену полученного товара за период\n");
-    System.out.println(injector.getInstance(Application.class).getAverageOfProductPrice());*/
+    System.out.println("\nРассчитать среднюю цену полученного товара за период\n");
+    System.out.println(injector.getInstance(Application.class).getAverageOfProductPrice());
 
     System.out.println("\nВывести список товаров, поставленных организациями за период\n");
     System.out.println(injector.getInstance(Application.class).getProductsListByOrganizations());

@@ -6,11 +6,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.vk.AbstractTest;
 
+import javax.inject.Named;
+
 class PositionDAOTest extends AbstractTest
 {
   @Inject
   @NotNull
-  private PositionDAO positionDAO;
+  @Named("Position")
+  private Dao positionDAO;
+
   @Test
   @DisplayName("Получение позиции накладной из БД")
   void get()

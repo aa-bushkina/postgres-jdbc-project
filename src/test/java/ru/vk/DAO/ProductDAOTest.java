@@ -2,18 +2,18 @@ package ru.vk.DAO;
 
 import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.vk.AbstractTest;
-import ru.vk.application.Application;
+
+import javax.inject.Named;
 
 class ProductDAOTest extends AbstractTest
 {
   @Inject
   @NotNull
-  private ProductDAO productDAO;
+  @Named("Product")
+  private Dao productDAO;
 
   @Test
   @DisplayName("Получение товара из БД")

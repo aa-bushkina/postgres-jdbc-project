@@ -1,13 +1,20 @@
 package ru.vk.DAO;
 
+import com.google.inject.Inject;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.vk.AbstractTest;
 
-import java.sql.SQLException;
+import javax.inject.Named;
 
 class InvoiceDAOTest extends AbstractTest
 {
+  @Inject
+  @NotNull
+  @Named("Invoice")
+  private Dao invoiceDAO;
+
   @Test
   @DisplayName("Получение накладной из БД")
   void get()
@@ -22,7 +29,7 @@ class InvoiceDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Добавление новой накладной в БД")
-  void save() throws SQLException
+  void save()
   {
 
   }

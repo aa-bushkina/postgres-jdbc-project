@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
+import ru.vk.DAO.DAOModule;
 import ru.vk.application.Application;
 import ru.vk.application.ApplicationModule;
 
@@ -18,7 +19,7 @@ public abstract class AbstractTest
   @BeforeEach
   public void beforeEach()
   {
-    Injector injector = Guice.createInjector(new ApplicationModule(args));
+    Injector injector = Guice.createInjector(new ApplicationModule(args), new DAOModule(args));
     injector.injectMembers(this);
     injector.getInstance(Application.class).makeDB(path);
   }

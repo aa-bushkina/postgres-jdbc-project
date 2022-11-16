@@ -6,11 +6,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.vk.AbstractTest;
 
+import javax.inject.Named;
+
 class OrganizationDAOTest extends AbstractTest
 {
   @Inject
   @NotNull
-  private OrganizationDAO organizationDAO;
+  @Named("Organization")
+  private Dao organizationDAO;
+
   @Test
   @DisplayName("Получение организации из БД")
   void get()
