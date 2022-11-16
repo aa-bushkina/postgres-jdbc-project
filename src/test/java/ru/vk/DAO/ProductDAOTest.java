@@ -76,7 +76,7 @@ class ProductDAOTest extends AbstractTest
     final Product product = new Product(uniqueId, "product", uniqueInternalCode);
     productDAO.save(product);
     final Product updatedProduct = new Product(uniqueId, "productUpdate", uniqueInternalCode);
-    productDAO.update(uniqueId);
+    productDAO.update(updatedProduct);
     assertThat(productDAO.get(uniqueId), equalTo(updatedProduct));
     productDAO.delete(product);
   }
