@@ -1,6 +1,7 @@
 package ru.vk.entities;
 
 import org.jetbrains.annotations.NotNull;
+import ru.vk.application.utils.ProductInfo;
 
 import java.util.Objects;
 
@@ -20,9 +21,11 @@ public final class Product
   }
 
   @Override
-  public boolean equals(Object obj)
+  public boolean equals(Object o)
   {
-    final Product other = (Product) obj;
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    final Product other = (Product) o;
     return this.id == other.id
       && this.internalCode.equals(other.internalCode)
       && this.name.equals(other.name);

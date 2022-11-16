@@ -16,7 +16,7 @@ public class Main
     System.out.println("Выбрать первые 10 поставщиков по количеству поставленного товара\n");
     System.out.println(injector.getInstance(Application.class).getTop10OrganizationsByQuantity());
 
-    /*System.out.println("\nВыбрать поставщиков с количеством поставленного товара " +
+    System.out.println("\nВыбрать поставщиков с количеством поставленного товара " +
       "выше указанного значения: 9000\n");
     System.out.println(injector.getInstance(Application.class).getOrganizationsWithDefiniteQuantity());
 
@@ -28,6 +28,6 @@ public class Main
     System.out.println(injector.getInstance(Application.class).getAverageOfProductPrice());
 
     System.out.println("\nВывести список товаров, поставленных организациями за период\n");
-    System.out.println(injector.getInstance(Application.class).getProductsListByOrganizations());*/
+    System.out.println(injector.getInstance(Application.class).getProductsListByOrganizations());
   }
 }

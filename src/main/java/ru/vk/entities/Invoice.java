@@ -23,9 +23,11 @@ public final class Invoice
   }
 
   @Override
-  public boolean equals(Object obj)
+  public boolean equals(Object o)
   {
-    final Invoice other = (Invoice) obj;
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    final Invoice other = (Invoice) o;
     return this.id == other.id
       && this.num.equals(other.num)
       && this.date.equals(other.date)

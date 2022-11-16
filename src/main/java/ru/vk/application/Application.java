@@ -146,8 +146,8 @@ public class Application
     {
       try (var statement = connection.prepareStatement(SELECT_SQL))
       {
-        final Date startDate = Date.valueOf("2022-11-01");
-        final Date endDate = Date.valueOf("2022-11-08");
+        final Date startDate = Date.valueOf("2022-11-03");
+        final Date endDate = Date.valueOf("2022-11-05");
         statement.setDate(1, startDate);
         statement.setDate(2, endDate);
 

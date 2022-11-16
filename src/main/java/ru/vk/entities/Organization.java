@@ -24,9 +24,11 @@ public final class Organization
   }
 
   @Override
-  public boolean equals(Object obj)
+  public boolean equals(Object o)
   {
-    final Organization other = (Organization) obj;
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    final Organization other = (Organization) o;
     return this.id == other.id
       && this.name.equals(other.name)
       && this.inn.equals(other.inn)

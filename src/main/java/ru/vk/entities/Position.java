@@ -21,9 +21,11 @@ public final class Position
   }
 
   @Override
-  public boolean equals(Object obj)
+  public boolean equals(Object o)
   {
-    final Position other = (Position) obj;
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    final Position other = (Position) o;
     return this.id == other.id
       && this.price.equals(other.price)
       && (this.product_id == other.product_id)
