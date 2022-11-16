@@ -21,9 +21,9 @@ public final class Product
   public @NotNull String toString()
   {
     return "\nProduct{" +
-      "\nid=" + id +
-      ",\ninternal code=" + internalCode +
-      ",\nname='" + name +
-      "}\n";
+      "\nid='" + id +
+      "',\ninternal code='" + internalCode +
+      "',\nname='" + name +
+      "'}\n";
   }
 }

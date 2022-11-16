@@ -23,10 +23,10 @@ public final class Position
   public @NotNull String toString()
   {
     return "\nPosition{" +
-      "\nid=" + id +
-      ",\nprice=" + price +
-      ",\nproduct_id=" + product_id +
-      ",\nquantity='" + quantity +
-      "}\n";
+      "\nid='" + id +
+      "',\nprice='" + price +
+      "',\nproduct_id='" + product_id +
+      "',\nquantity='" + quantity +
+      "'}\n";
   }
 }

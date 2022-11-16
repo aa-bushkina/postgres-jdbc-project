@@ -25,10 +25,10 @@ public final class Invoice
   public @NotNull String toString()
   {
     return "\nInvoice{" +
-      "\nid=" + id +
-      ",\nnumber=" + num +
-      ",\ndate='" + date +
-      ",\nsender organization id='" + organization_id +
-      "}\n";
+      "\nid='" + id +
+      "',\nnumber='" + num +
+      "',\ndate='" + date +
+      "',\nsender organization id='" + organization_id +
+      "'}\n";
   }
 }

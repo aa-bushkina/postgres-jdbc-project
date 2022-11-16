@@ -25,10 +25,10 @@ public final class Organization
   public @NotNull String toString()
   {
     return "\nOrganization{" +
-      "id=" + id +
-      ",\nname='" + name +
-      ",\ninn='" + inn +
-      ",\npayment account='" + paymentAccount +
-      "}\n";
+      "id='" + id +
+      "',\nname='" + name +
+      "',\ninn='" + inn +
+      "',\npayment account='" + paymentAccount +
+      "'}\n";
   }
 }
