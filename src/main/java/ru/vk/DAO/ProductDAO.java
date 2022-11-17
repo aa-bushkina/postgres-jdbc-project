@@ -2,6 +2,7 @@ package ru.vk.DAO;
 
 import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
+import ru.vk.DAO.utils.Queries;
 import ru.vk.application.utils.DBProperties;
 import ru.vk.application.utils.ProductInfo;
 import ru.vk.entities.Product;
@@ -126,22 +127,8 @@ public final class ProductDAO implements Dao<Product>
 
   public Set<ProductInfo> getEverydayProductCharacteristics()
   {
-    final @NotNull String SELECT_SQL = """
-      select date, products.id, products.name, products.internal_code,
-      sum(quantity) as quantity, sum(quantity*price)::numeric as sum from organizations
-      left join invoices
-      on invoices.organization_id=organizations.id
-      join invoices_positions
-      on invoices_positions.invoice_id = invoices.id
-      join positions
-      on invoices_positions.position_id = positions.id
-      join products
-      on positions.product_id = products.id
-      where date >= ? and date <= ?
-      group by  date, products.id, products.name
-      order by products.name""";
-
-    try (var statement = getConnection().prepareStatement(SELECT_SQL))
+    try (var statement = getConnection().prepareStatement(
+      Queries.EVERYDAY_PRODUCT_CHARACTERISTICS_QUERY))
     {
       final Date startDate = Date.valueOf("2022-11-03");
       final Date endDate = Date.valueOf("2022-11-05");
@@ -174,19 +161,8 @@ public final class ProductDAO implements Dao<Product>
 
   public Map<Product, Double> getAverageOfProductPrice()
   {
-    final @NotNull String SELECT_SQL = """
-      select products.id, products.name, products.internal_code, avg(cast(price as numeric)) as avg from positions join invoices_positions
-      on positions.id = invoices_positions.position_id
-      join invoices
-      on invoices.id = invoices_positions.invoice_id
-      join products
-      on products.id = positions.product_id
-      where date >= ? and date <= ?
-      group by products.id, products.name
-      order by products.name""";
-
-
-    try (var statement = getConnection().prepareStatement(SELECT_SQL))
+    try (var statement = getConnection().prepareStatement(
+      Queries.AVG_OF_PRODUCT_PRICE_QUERY))
     {
       final Date startDate = Date.valueOf("2022-11-01");
       final Date endDate = Date.valueOf("2022-11-06");

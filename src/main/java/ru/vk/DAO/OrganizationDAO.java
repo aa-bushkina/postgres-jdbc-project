@@ -2,6 +2,7 @@ package ru.vk.DAO;
 
 import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
+import ru.vk.DAO.utils.Queries;
 import ru.vk.application.utils.DBProperties;
 import ru.vk.entities.Organization;
 import ru.vk.entities.Product;
@@ -132,20 +133,8 @@ public final class OrganizationDAO implements Dao<Organization>
 
   public Map<Organization, Integer> getTop10OrganizationsByQuantity()
   {
-    final @NotNull String SELECT_SQL = """
-      select organizations.id, organizations.name, organizations.inn,
-      organizations.payment_account, sum(positions.quantity)  as quantity
-      from organizations join invoices
-      on invoices.organization_id=organizations.id
-      left join invoices_positions
-      on invoices_positions.invoice_id = invoices.id
-      left join positions
-      on invoices_positions.position_id = positions.id
-      group by organizations.name,  organizations.id, organizations.inn, organizations.payment_account
-      order by quantity desc
-      limit ?""";
-
-    try (var statement = getConnection().prepareStatement(SELECT_SQL))
+    try (var statement = getConnection().prepareStatement(
+      Queries.ORGANIZATIONS_BY_QUANTITY_QUERY))
     {
       final int limitValue = 10;
       statement.setInt(1, limitValue);
@@ -172,20 +161,8 @@ public final class OrganizationDAO implements Dao<Organization>
 
   public Map<Organization, Integer> getOrganizationsWithDefiniteQuantity()
   {
-    final @NotNull String SELECT_SQL = """
-      select organizations.id, organizations.name, organizations.inn,
-      organizations.payment_account, sum(positions.quantity)  as quantity
-      from organizations join invoices
-      on invoices.organization_id=organizations.id
-      left join invoices_positions
-      on invoices_positions.invoice_id = invoices.id
-      left join positions
-      on invoices_positions.position_id = positions.id
-      group by organizations.name,  organizations.id, organizations.inn, organizations.payment_account
-      having  sum(positions.quantity)>?
-      order by quantity desc""";
-
-    try (var statement = getConnection().prepareStatement(SELECT_SQL))
+    try (var statement = getConnection().prepareStatement(
+      Queries.ORGANIZATION_WITH_DEFINITE_QUANTITY_QUERY))
     {
       final int quantityValue = 9000;
       statement.setInt(1, quantityValue);
@@ -212,22 +189,10 @@ public final class OrganizationDAO implements Dao<Organization>
 
   public Map<Organization, List<Product>> getProductsListByOrganizations()
   {
-    final @NotNull String SELECT_SQL = """
-      select organizations.id as org_id, organizations.name as org_name, organizations.inn,
-      organizations.payment_account, products.id as pr_id, products.name, products.internal_code
-      from organizations left join invoices
-      on invoices.organization_id=organizations.id
-      join invoices_positions
-      on invoices_positions.invoice_id = invoices.id
-      join positions
-      on invoices_positions.position_id = positions.id
-      join products
-      on positions.product_id = products.id
-      where date >= ? and date <= ?""";
-
     try (var statement =
-           getConnection().prepareStatement(SELECT_SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
-             ResultSet.CONCUR_UPDATABLE))
+           getConnection().prepareStatement(
+             Queries.PRODUCT_LIST_BY_ORGANIZATION_QUERY,
+             ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE))
     {
       final Date startDate = Date.valueOf("2022-11-05");
       final Date endDate = Date.valueOf("2022-11-09");
