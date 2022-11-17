@@ -24,3 +24,12 @@ Requests for building reports have been written:
 - Display a list of goods delivered by organizations for the period. If the organization did not deliver the goods, then it should still be reflected in the list.
 
 Tests have been written
+
+The application accepts command line arguments:
+1) database url
+2) name of the database
+3) username
+4) password
+
+Example:
+jdbc:postgresql://localhost/ db_name postgres postgres
