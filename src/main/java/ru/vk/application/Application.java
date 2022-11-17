@@ -84,7 +84,7 @@ public class Application
     {
       exception.printStackTrace();
     }
-    return null;
+    return new LinkedHashMap<>();
   }
 
   public Map<Organization, Integer> getOrganizationsWithDefiniteQuantity()
@@ -127,7 +127,7 @@ public class Application
     {
       exception.printStackTrace();
     }
-    return null;
+    return new LinkedHashMap<>();
   }
 
   public Set<ProductInfo> getEverydayProductCharacteristics()
@@ -178,7 +178,7 @@ public class Application
     {
       exception.printStackTrace();
     }
-    return null;
+    return new LinkedHashSet<>();
   }
 
   public Map<Product, Double> getAverageOfProductPrice()
@@ -219,7 +219,7 @@ public class Application
     {
       exception.printStackTrace();
     }
-    return null;
+    return new LinkedHashMap<>();
   }
 
   public Map<Organization, List<Product>> getProductsListByOrganizations()
@@ -295,6 +295,6 @@ public class Application
     {
       exception.printStackTrace();
     }
-    return null;
+    return new LinkedHashMap<>();
   }
 }
