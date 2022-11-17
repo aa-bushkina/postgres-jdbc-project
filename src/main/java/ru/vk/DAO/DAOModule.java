@@ -33,12 +33,12 @@ public class DAOModule extends AbstractModule
       bind(Dao.class).annotatedWith(Names.named("Product")).toInstance(new ProductDAO(connection));
     } catch (SQLException exception)
     {
-      exception.printStackTrace();
+      System.exit(1);
     }
   }
 
   private boolean checkArgs(@NotNull final String[] args)
   {
-    return (args.length == 4) && args[0].contains("jdbc:postgresql://");
+    return args.length == 4;
   }
 }
