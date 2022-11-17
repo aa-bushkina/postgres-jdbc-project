@@ -9,6 +9,8 @@ public class FlywayInitializer
   @NotNull
   final private DBProperties DBProperties;
 
+  Flyway flyway;
+
   public FlywayInitializer(@NotNull final DBProperties dbProperties)
   {
     DBProperties = dbProperties;
@@ -16,17 +18,20 @@ public class FlywayInitializer
 
   public void initDB(@NotNull final String path)
   {
-    final Flyway flyway = Flyway
+    flyway = Flyway
       .configure()
       .dataSource(DBProperties.connection() + DBProperties.name(),
         DBProperties.username(),
         DBProperties.password())
-      //.cleanDisabled(false)
+      .cleanDisabled(false)
       .locations(path)
       .load();
-    //flyway.clean();
     flyway.migrate();
   }
 
+  public void cleanDB()
+  {
+    flyway.clean();
+  }
 
 }

@@ -31,6 +31,11 @@ public class Application
     initializer.initDB(path);
   }
 
+  public void cleanDB()
+  {
+    initializer.cleanDB();
+  }
+
   private Connection getConnection() throws SQLException
   {
     return DriverManager.getConnection(
