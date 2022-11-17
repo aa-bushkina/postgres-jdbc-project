@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import ru.vk.AbstractTest;
+import ru.vk.DAO.OrganizationDAO;
+import ru.vk.DAO.ProductDAO;
 import ru.vk.application.utils.ProductInfo;
 import ru.vk.entities.Organization;
 import ru.vk.entities.Product;
@@ -19,7 +21,11 @@ public class QueriesTest extends AbstractTest
 {
   @Inject
   @NotNull
-  private Application application;
+  private ProductDAO productDAO;
+
+  @Inject
+  @NotNull
+  private OrganizationDAO organizationDAO;
 
   @Test
   void getTop10OrganizationsByQuantity()
@@ -38,8 +44,8 @@ public class QueriesTest extends AbstractTest
       put(new Organization(5, "organization5", "1050337331", "5678901234"), 7000);
     }};
 
-    assertThat(application.getTop10OrganizationsByQuantity().size(), equalTo(10));
-    assertThat(application.getTop10OrganizationsByQuantity(), equalTo(map));
+    assertThat(organizationDAO.getTop10OrganizationsByQuantity().size(), equalTo(10));
+    assertThat(organizationDAO.getTop10OrganizationsByQuantity(), equalTo(map));
   }
 
   @Test
@@ -55,7 +61,7 @@ public class QueriesTest extends AbstractTest
       put(new Organization(6, "organization6", "1050343811", "4444444444"), 101333);
       put(new Organization(9, "organization9", "1052227811", "3749506837"), 10754);
     }};
-    assertThat(application.getOrganizationsWithDefiniteQuantity(), equalTo(map));
+    assertThat(organizationDAO.getOrganizationsWithDefiniteQuantity(), equalTo(map));
   }
 
   @Test
@@ -78,7 +84,7 @@ public class QueriesTest extends AbstractTest
       add(new ProductInfo(Date.valueOf("2022-11-04"),
         new Product(7, "product7", "1a00dfg078"), 2457, BigDecimal.valueOf(30327979.50)));
     }};
-    assertThat(application.getEverydayProductCharacteristics(), equalTo(set));
+    assertThat(productDAO.getEverydayProductCharacteristics(), equalTo(set));
   }
 
   @Test
@@ -102,7 +108,7 @@ public class QueriesTest extends AbstractTest
       put(new Product(8, "product8", "1a0eg00422"), 9875.5);
 
     }};
-    assertThat(application.getAverageOfProductPrice(), equalTo(map));
+    assertThat(productDAO.getAverageOfProductPrice(), equalTo(map));
   }
 
   @Test
@@ -119,6 +125,6 @@ public class QueriesTest extends AbstractTest
           new Product(9, "product9", "1a004t0032"),
           new Product(15, "product15", "1a00fw4500")));
     }};
-    assertThat(application.getProductsListByOrganizations(), equalTo(map));
+    assertThat(organizationDAO.getProductsListByOrganizations(), equalTo(map));
   }
 }

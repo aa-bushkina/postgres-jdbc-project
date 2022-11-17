@@ -1,6 +1,7 @@
 package ru.vk.DAO;
 
 import org.jetbrains.annotations.NotNull;
+import ru.vk.application.utils.DBProperties;
 
 import java.util.List;
 

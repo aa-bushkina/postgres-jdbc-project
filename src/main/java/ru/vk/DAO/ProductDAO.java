@@ -1,22 +1,33 @@
 package ru.vk.DAO;
 
+import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
+import ru.vk.application.utils.DBProperties;
+import ru.vk.application.utils.ProductInfo;
 import ru.vk.entities.Product;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.sql.Date;
+import java.util.*;
 
 @SuppressWarnings({"NotNullNullableValidation", "SqlNoDataSourceInspection", "SqlResolve"})
 public final class ProductDAO implements Dao<Product>
 {
-  private final @NotNull Connection connection;
+  @NotNull
+  final DBProperties dbProperties;
 
-  public ProductDAO(@NotNull final Connection connection)
+  @Inject
+  public ProductDAO(@NotNull final DBProperties dbProperties)
   {
-    this.connection = connection;
+    this.dbProperties = dbProperties;
+  }
+
+  private Connection getConnection() throws SQLException
+  {
+    return DriverManager.getConnection(
+      dbProperties.connection() + dbProperties.name(),
+      dbProperties.username(),
+      dbProperties.password());
   }
 
   @Override
@@ -24,7 +35,7 @@ public final class ProductDAO implements Dao<Product>
   {
     try
     {
-      var preparedStatement = connection
+      var preparedStatement = getConnection()
         .prepareStatement("SELECT id, name, internal_code FROM products WHERE id = ?");
       preparedStatement.setInt(1, id);
       preparedStatement.execute();
@@ -46,7 +57,7 @@ public final class ProductDAO implements Dao<Product>
   public @NotNull List<Product> all()
   {
     final var result = new ArrayList<Product>();
-    try (var statement = connection.createStatement())
+    try (var statement = getConnection().createStatement())
     {
       try (var resultSet = statement.executeQuery("SELECT * FROM products"))
       {
@@ -68,7 +79,7 @@ public final class ProductDAO implements Dao<Product>
   @Override
   public void save(@NotNull final Product entity)
   {
-    try (var preparedStatement = connection
+    try (var preparedStatement = getConnection()
       .prepareStatement("INSERT INTO products(id, name, internal_code) VALUES(?,?,?)"))
     {
       preparedStatement.setInt(1, entity.id);
@@ -84,7 +95,7 @@ public final class ProductDAO implements Dao<Product>
   @Override
   public void update(@NotNull final Product entity)
   {
-    try (var preparedStatement = connection
+    try (var preparedStatement = getConnection()
       .prepareStatement("UPDATE products SET name = ?, internal_code = ? WHERE id = ?"))
     {
       preparedStatement.setString(1, entity.name);
@@ -100,7 +111,7 @@ public final class ProductDAO implements Dao<Product>
   @Override
   public void delete(@NotNull final Product entity)
   {
-    try (var preparedStatement = connection.prepareStatement("DELETE FROM products WHERE id = ?"))
+    try (var preparedStatement = getConnection().prepareStatement("DELETE FROM products WHERE id = ?"))
     {
       preparedStatement.setInt(1, entity.id);
       if (preparedStatement.executeUpdate() == 0)
@@ -111,5 +122,92 @@ public final class ProductDAO implements Dao<Product>
     {
       e.printStackTrace();
     }
+  }
+
+  public Set<ProductInfo> getEverydayProductCharacteristics()
+  {
+    final @NotNull String SELECT_SQL = """
+      select date, products.id, products.name, products.internal_code,
+      sum(quantity) as quantity, sum(quantity*price)::numeric as sum from organizations
+      left join invoices
+      on invoices.organization_id=organizations.id
+      join invoices_positions
+      on invoices_positions.invoice_id = invoices.id
+      join positions
+      on invoices_positions.position_id = positions.id
+      join products
+      on positions.product_id = products.id
+      where date >= ? and date <= ?
+      group by  date, products.id, products.name
+      order by products.name""";
+
+    try (var statement = getConnection().prepareStatement(SELECT_SQL))
+    {
+      final Date startDate = Date.valueOf("2022-11-03");
+      final Date endDate = Date.valueOf("2022-11-05");
+      statement.setDate(1, startDate);
+      statement.setDate(2, endDate);
+
+      try (var resultSet = statement.executeQuery())
+      {
+        LinkedHashSet<ProductInfo> set = new LinkedHashSet<>();
+        while (resultSet.next())
+        {
+          ProductInfo info = new ProductInfo(
+            resultSet.getDate("date"),
+            new Product(
+              resultSet.getInt("id"),
+              resultSet.getString("name"),
+              resultSet.getString("internal_code")),
+            resultSet.getInt("quantity"),
+            resultSet.getBigDecimal("sum"));
+          set.add(info);
+        }
+        return set;
+      }
+    } catch (SQLException exception)
+    {
+      exception.printStackTrace();
+    }
+    return new LinkedHashSet<>();
+  }
+
+  public Map<Product, Double> getAverageOfProductPrice()
+  {
+    final @NotNull String SELECT_SQL = """
+      select products.id, products.name, products.internal_code, avg(cast(price as numeric)) as avg from positions join invoices_positions
+      on positions.id = invoices_positions.position_id
+      join invoices
+      on invoices.id = invoices_positions.invoice_id
+      join products
+      on products.id = positions.product_id
+      where date >= ? and date <= ?
+      group by products.id, products.name
+      order by products.name""";
+
+
+    try (var statement = getConnection().prepareStatement(SELECT_SQL))
+    {
+      final Date startDate = Date.valueOf("2022-11-01");
+      final Date endDate = Date.valueOf("2022-11-06");
+      statement.setDate(1, startDate);
+      statement.setDate(2, endDate);
+      try (var resultSet = statement.executeQuery())
+      {
+        LinkedHashMap<Product, Double> map = new LinkedHashMap<>();
+        while (resultSet.next())
+        {
+          map.put(new Product(
+            resultSet.getInt("id"),
+            resultSet.getString("name"),
+            resultSet.getString("internal_code")), resultSet.getDouble("avg"));
+        }
+        return map;
+      }
+    } catch (SQLException exception)
+    {
+      exception.printStackTrace();
+    }
+    return new LinkedHashMap<>();
   }
 }

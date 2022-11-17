@@ -2,9 +2,11 @@ package ru.vk.DAO;
 
 import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
+import ru.vk.application.utils.DBProperties;
 import ru.vk.entities.Invoice;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,12 +15,21 @@ import java.util.List;
 @SuppressWarnings({"NotNullNullableValidation", "SqlNoDataSourceInspection", "SqlResolve"})
 public final class InvoiceDAO implements Dao<Invoice>
 {
-  private final @NotNull Connection connection;
+  @NotNull
+  final DBProperties dbProperties;
 
   @Inject
-  public InvoiceDAO(@NotNull final Connection connection)
+  public InvoiceDAO(@NotNull final DBProperties dbProperties)
   {
-    this.connection = connection;
+    this.dbProperties = dbProperties;
+  }
+
+  private Connection getConnection() throws SQLException
+  {
+    return DriverManager.getConnection(
+      dbProperties.connection() + dbProperties.name(),
+      dbProperties.username(),
+      dbProperties.password());
   }
 
   @Override
@@ -26,7 +37,7 @@ public final class InvoiceDAO implements Dao<Invoice>
   {
     try
     {
-      var preparedStatement = connection
+      var preparedStatement = getConnection()
         .prepareStatement("SELECT * FROM invoices WHERE id = ?");
       {
         preparedStatement.setInt(1, id);
@@ -51,7 +62,7 @@ public final class InvoiceDAO implements Dao<Invoice>
   public @NotNull List<Invoice> all()
   {
     final var result = new ArrayList<Invoice>();
-    try (var statement = connection.createStatement())
+    try (var statement = getConnection().createStatement())
     {
       try (var resultSet = statement.executeQuery("SELECT * FROM invoices"))
       {
@@ -74,7 +85,7 @@ public final class InvoiceDAO implements Dao<Invoice>
   @Override
   public void save(@NotNull final Invoice entity)
   {
-    try (var preparedStatement = connection
+    try (var preparedStatement = getConnection()
       .prepareStatement("INSERT INTO invoices(id, num, date, organization_id) VALUES(?,?,?,?)"))
     {
       preparedStatement.setInt(1, entity.id);
@@ -91,7 +102,7 @@ public final class InvoiceDAO implements Dao<Invoice>
   @Override
   public void update(@NotNull final Invoice entity)
   {
-    try (var preparedStatement = connection
+    try (var preparedStatement = getConnection()
       .prepareStatement("UPDATE invoices SET num = ?, " +
         "date = ?, " +
         "organization_id = ? WHERE id = ?"))
@@ -110,7 +121,7 @@ public final class InvoiceDAO implements Dao<Invoice>
   @Override
   public void delete(@NotNull final Invoice entity)
   {
-    try (var preparedStatement = connection
+    try (var preparedStatement = getConnection()
       .prepareStatement("DELETE FROM invoices WHERE id = ?"))
     {
       preparedStatement.setInt(1, entity.id);

@@ -1,10 +1,13 @@
 package ru.vk.DAO;
 
+import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
+import ru.vk.application.utils.DBProperties;
 import ru.vk.entities.Position;
 
 import java.math.RoundingMode;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,19 +16,28 @@ import java.util.List;
 @SuppressWarnings({"NotNullNullableValidation", "SqlNoDataSourceInspection", "SqlResolve"})
 public final class PositionDAO implements Dao<Position>
 {
-  private final @NotNull Connection connection;
+  @NotNull
+  final DBProperties dbProperties;
 
-  public PositionDAO(@NotNull final Connection connection)
+  @Inject
+  public PositionDAO(@NotNull final DBProperties dbProperties)
   {
-    this.connection = connection;
+    this.dbProperties = dbProperties;
   }
 
+  private Connection getConnection() throws SQLException
+  {
+    return DriverManager.getConnection(
+      dbProperties.connection() + dbProperties.name(),
+      dbProperties.username(),
+      dbProperties.password());
+  }
   @Override
   public @NotNull Position get(final int id)
   {
     try
     {
-      var preparedStatement = connection
+      var preparedStatement = getConnection()
         .prepareStatement("SELECT id, price, product_id, quantity FROM positions WHERE id = ?");
       {
         preparedStatement.setInt(1, id);
@@ -50,7 +62,7 @@ public final class PositionDAO implements Dao<Position>
   public @NotNull List<Position> all()
   {
     final var result = new ArrayList<Position>();
-    try (var statement = connection.createStatement())
+    try (var statement = getConnection().createStatement())
     {
       try (var resultSet = statement.executeQuery("SELECT * FROM positions"))
       {
@@ -73,7 +85,7 @@ public final class PositionDAO implements Dao<Position>
   @Override
   public void save(@NotNull final Position entity)
   {
-    try (var preparedStatement = connection
+    try (var preparedStatement = getConnection()
       .prepareStatement("INSERT INTO positions(id, price, product_id, quantity) VALUES(?,?,?,?)"))
     {
       preparedStatement.setInt(1, entity.id);
@@ -90,7 +102,7 @@ public final class PositionDAO implements Dao<Position>
   @Override
   public void update(@NotNull final Position entity)
   {
-    try (var preparedStatement = connection
+    try (var preparedStatement = getConnection()
       .prepareStatement("UPDATE positions SET price = ?, product_id = ?, quantity = ? WHERE id = ?"))
     {
       preparedStatement.setBigDecimal(1, entity.price);
@@ -107,7 +119,7 @@ public final class PositionDAO implements Dao<Position>
   @Override
   public void delete(@NotNull final Position entity)
   {
-    try (var preparedStatement = connection.prepareStatement("DELETE FROM positions WHERE id = ?"))
+    try (var preparedStatement = getConnection().prepareStatement("DELETE FROM positions WHERE id = ?"))
     {
       preparedStatement.setInt(1, entity.id);
       if (preparedStatement.executeUpdate() == 0)

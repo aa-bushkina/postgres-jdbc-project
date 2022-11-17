@@ -3,8 +3,8 @@ package ru.vk.DAO;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import org.jetbrains.annotations.NotNull;
+import ru.vk.application.utils.DBProperties;
 
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DAOModule extends AbstractModule
@@ -24,17 +24,11 @@ public class DAOModule extends AbstractModule
   @Override
   protected void configure()
   {
-    try
-    {
-      var connection = DriverManager.getConnection(args[0] + args[1], args[2], args[3]);
-      bind(Dao.class).annotatedWith(Names.named("Invoice")).toInstance(new InvoiceDAO(connection));
-      bind(Dao.class).annotatedWith(Names.named("Organization")).toInstance(new OrganizationDAO(connection));
-      bind(Dao.class).annotatedWith(Names.named("Position")).toInstance(new PositionDAO(connection));
-      bind(Dao.class).annotatedWith(Names.named("Product")).toInstance(new ProductDAO(connection));
-    } catch (SQLException exception)
-    {
-      System.exit(1);
-    }
+    DBProperties properties = new DBProperties(args[0], args[1], args[2], args[3]);
+    bind(Dao.class).annotatedWith(Names.named("Invoice")).toInstance(new InvoiceDAO(properties));
+    bind(Dao.class).annotatedWith(Names.named("Organization")).toInstance(new OrganizationDAO(properties));
+    bind(Dao.class).annotatedWith(Names.named("Position")).toInstance(new PositionDAO(properties));
+    bind(Dao.class).annotatedWith(Names.named("Product")).toInstance(new ProductDAO(properties));
   }
 
   private boolean checkArgs(@NotNull final String[] args)
