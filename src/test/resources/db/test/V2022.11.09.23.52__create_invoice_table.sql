@@ -8,5 +8,5 @@ CREATE TABLE invoices
         ON DELETE CASCADE,
     CONSTRAINT invoices_pk PRIMARY KEY (id),
     CONSTRAINT check_num CHECK
-        (num ~ '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
+        (num ~ '\d{10}')
 );

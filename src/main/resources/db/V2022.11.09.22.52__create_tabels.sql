@@ -14,7 +14,8 @@ CREATE TABLE organizations
     payment_account VARCHAR(10) NOT NULL UNIQUE,
     CONSTRAINT organization_pk PRIMARY KEY (id),
     CONSTRAINT check_inn CHECK
-        (inn ~ '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+        (inn ~ '\d{10}'
+) ,
     CONSTRAINT check_payment_account CHECK
-        (payment_account ~ '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
+        (payment_account ~ '\d{10}')
 );
