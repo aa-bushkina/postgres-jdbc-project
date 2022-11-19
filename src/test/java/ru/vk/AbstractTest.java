@@ -9,8 +9,7 @@ import ru.vk.DAO.DAOModule;
 import ru.vk.application.Application;
 import ru.vk.application.ApplicationModule;
 
-public abstract class AbstractTest
-{
+public abstract class AbstractTest {
   @NotNull
   final String[] args = {"jdbc:postgresql://localhost/", "testTask", "postgres", "postgres"};
 
@@ -20,16 +19,14 @@ public abstract class AbstractTest
   Injector injector;
 
   @BeforeEach
-  public void beforeEach()
-  {
+  public void beforeEach() {
     injector = Guice.createInjector(new ApplicationModule(args), new DAOModule(args));
     injector.injectMembers(this);
     injector.getInstance(Application.class).makeDB(path);
   }
 
   @AfterEach
-  public void afterEach()
-  {
+  public void afterEach() {
     injector.getInstance(Application.class).cleanDB();
   }
 }

@@ -5,25 +5,19 @@ import com.google.inject.name.Names;
 import org.jetbrains.annotations.NotNull;
 import ru.vk.application.utils.DBProperties;
 
-import java.sql.SQLException;
-
-public class DAOModule extends AbstractModule
-{
+public class DAOModule extends AbstractModule {
   @NotNull
   final String[] args;
 
-  public DAOModule(@NotNull final String[] args)
-  {
-    if (!checkArgs(args))
-    {
+  public DAOModule(@NotNull final String[] args) {
+    if (!checkArgs(args)) {
       throw new RuntimeException("Incorrect args.");
     }
     this.args = args;
   }
 
   @Override
-  protected void configure()
-  {
+  protected void configure() {
     DBProperties properties = new DBProperties(args[0], args[1], args[2], args[3]);
     bind(Dao.class).annotatedWith(Names.named("Invoice")).toInstance(new InvoiceDAO(properties));
     bind(Dao.class).annotatedWith(Names.named("Organization")).toInstance(new OrganizationDAO(properties));
@@ -31,8 +25,7 @@ public class DAOModule extends AbstractModule
     bind(Dao.class).annotatedWith(Names.named("Product")).toInstance(new ProductDAO(properties));
   }
 
-  private boolean checkArgs(@NotNull final String[] args)
-  {
+  private boolean checkArgs(@NotNull final String[] args) {
     return args.length == 4;
   }
 }

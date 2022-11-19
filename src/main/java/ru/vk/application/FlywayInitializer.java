@@ -4,20 +4,17 @@ import org.flywaydb.core.Flyway;
 import org.jetbrains.annotations.NotNull;
 import ru.vk.application.utils.DBProperties;
 
-public class FlywayInitializer
-{
+public class FlywayInitializer {
   @NotNull
   final private DBProperties DBProperties;
 
   Flyway flyway;
 
-  public FlywayInitializer(@NotNull final DBProperties dbProperties)
-  {
+  public FlywayInitializer(@NotNull final DBProperties dbProperties) {
     DBProperties = dbProperties;
   }
 
-  public void initDB(@NotNull final String path)
-  {
+  public void initDB(@NotNull final String path) {
     flyway = Flyway
       .configure()
       .dataSource(DBProperties.connection() + DBProperties.name(),
@@ -29,8 +26,7 @@ public class FlywayInitializer
     flyway.migrate();
   }
 
-  public void cleanDB()
-  {
+  public void cleanDB() {
     flyway.clean();
   }
 

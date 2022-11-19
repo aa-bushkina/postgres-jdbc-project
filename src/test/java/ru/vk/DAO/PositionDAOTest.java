@@ -15,8 +15,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-class PositionDAOTest extends AbstractTest
-{
+class PositionDAOTest extends AbstractTest {
   @Inject
   @NotNull
   @Named("Position")
@@ -24,8 +23,7 @@ class PositionDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Получение позиции накладной из БД")
-  void get()
-  {
+  void get() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final Position position = new Position(uniqueId, BigDecimal.valueOf(23944.55), 4, 390);
     positionDAO.save(position);
@@ -35,8 +33,7 @@ class PositionDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Просмотр всех позиции накладных в БД")
-  void all()
-  {
+  void all() {
     List<Position> list = List.of(
       new Position(1, BigDecimal.valueOf(1242.32).setScale(2, RoundingMode.CEILING), 1, 2000),
       new Position(2, BigDecimal.valueOf(1314.96).setScale(2, RoundingMode.CEILING), 2, 3000),
@@ -59,8 +56,7 @@ class PositionDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Добавление новой позиции накладной в БД")
-  void save()
-  {
+  void save() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final Position position = new Position(uniqueId, BigDecimal.valueOf(23944.55), 4, 390);
     positionDAO.save(position);
@@ -70,8 +66,7 @@ class PositionDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Обновление данных позиции накладной из БД")
-  void update()
-  {
+  void update() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final Position position = new Position(uniqueId, BigDecimal.valueOf(23944.55), 4, 390);
     positionDAO.save(position);
@@ -83,8 +78,7 @@ class PositionDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Удаление позиции накладной из БД")
-  void delete()
-  {
+  void delete() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final Position position = new Position(uniqueId, BigDecimal.valueOf(239544.55), 5, 3970);
     positionDAO.save(position);

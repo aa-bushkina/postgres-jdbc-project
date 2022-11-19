@@ -5,8 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.Date;
 import java.util.Objects;
 
-public final class Invoice
-{
+public final class Invoice {
   public final int id;
   @NotNull
   public final String num;
@@ -14,8 +13,7 @@ public final class Invoice
   public final Date date;
   public final int organization_id;
 
-  public Invoice(final int id, @NotNull final String num, @NotNull final Date date, final int organization_id)
-  {
+  public Invoice(final int id, @NotNull final String num, @NotNull final Date date, final int organization_id) {
     this.id = id;
     this.num = num;
     this.date = date;
@@ -23,8 +21,7 @@ public final class Invoice
   }
 
   @Override
-  public boolean equals(Object o)
-  {
+  public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     final Invoice other = (Invoice) o;
@@ -35,14 +32,12 @@ public final class Invoice
   }
 
   @Override
-  public int hashCode()
-  {
+  public int hashCode() {
     return Objects.hash(id, num, date, organization_id);
   }
 
   @Override
-  public @NotNull String toString()
-  {
+  public @NotNull String toString() {
     return "\nInvoice{" +
       "\nid='" + id +
       "',\nnumber='" + num +

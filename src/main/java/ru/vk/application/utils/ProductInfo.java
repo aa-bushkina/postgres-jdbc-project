@@ -8,11 +8,9 @@ import java.util.Objects;
 
 public record ProductInfo(@NotNull Product product,
                           int quantity,
-                          BigDecimal sum)
-{
+                          BigDecimal sum) {
   @Override
-  public boolean equals(Object o)
-  {
+  public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ProductInfo info = (ProductInfo) o;
@@ -22,8 +20,7 @@ public record ProductInfo(@NotNull Product product,
   }
 
   @Override
-  public int hashCode()
-  {
+  public int hashCode() {
     return Objects.hash(product, quantity, sum.doubleValue());
   }
 }

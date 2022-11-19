@@ -13,8 +13,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-class ProductDAOTest extends AbstractTest
-{
+class ProductDAOTest extends AbstractTest {
   @Inject
   @NotNull
   @Named("Product")
@@ -22,8 +21,7 @@ class ProductDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Получение товара из БД")
-  void get()
-  {
+  void get() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final String uniqueInternalCode = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
     final Product product = new Product(uniqueId, "product", uniqueInternalCode);
@@ -34,8 +32,7 @@ class ProductDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Просмотр всех товаров в БД")
-  void all()
-  {
+  void all() {
     List<Product> list = List.of(
       new Product(1, "product1", "0000000001"),
       new Product(2, "product2", "0000000002"),
@@ -57,8 +54,7 @@ class ProductDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Добавление нового товара в БД")
-  void save()
-  {
+  void save() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final String uniqueInternalCode = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
     final Product product = new Product(uniqueId, "product", uniqueInternalCode);
@@ -69,8 +65,7 @@ class ProductDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Обновление данных товара из БД")
-  void update()
-  {
+  void update() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final String uniqueInternalCode = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
     final Product product = new Product(uniqueId, "product", uniqueInternalCode);
@@ -83,8 +78,7 @@ class ProductDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Удаление товара из БД")
-  void delete()
-  {
+  void delete() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final String uniqueInternalCode = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
     final Product product = new Product(uniqueId, "product", uniqueInternalCode);

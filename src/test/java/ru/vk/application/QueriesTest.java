@@ -16,8 +16,7 @@ import java.util.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class QueriesTest extends AbstractTest
-{
+public class QueriesTest extends AbstractTest {
   @Inject
   @NotNull
   private ProductDAO productDAO;
@@ -27,10 +26,8 @@ public class QueriesTest extends AbstractTest
   private OrganizationDAO organizationDAO;
 
   @Test
-  void getTop10OrganizationsByQuantity()
-  {
-    final Map<Organization, Integer> map = new LinkedHashMap<>()
-    {{
+  void getTop10OrganizationsByQuantity() {
+    final Map<Organization, Integer> map = new LinkedHashMap<>() {{
       put(new Organization(15, "organization15", "1023456811", "3434343434"), 356300);
       put(new Organization(3, "organization3", "7300450045", "3456789012"), 354800);
       put(new Organization(2, "organization2", "2500000021", "2345678901"), 349800);
@@ -49,10 +46,8 @@ public class QueriesTest extends AbstractTest
 
   @Test
   @Deprecated
-  void getOrganizationsWithDefiniteQuantity()
-  {
-    final Map<Organization, Integer> map = new LinkedHashMap<>()
-    {{
+  void getOrganizationsWithDefiniteQuantity() {
+    final Map<Organization, Integer> map = new LinkedHashMap<>() {{
       put(new Organization(6, "organization6", "1050343811", "4444444444"), 100000);
       put(new Organization(10, "organization10", "1054407811", "3456384888"), 100000);
       put(new Organization(12, "organization12", "3567007811", "3456237474"), 100000);
@@ -62,18 +57,15 @@ public class QueriesTest extends AbstractTest
 
   @Test
   @Deprecated
-  void getEverydayProductCharacteristics()
-  {
+  void getEverydayProductCharacteristics() {
     //System.out.println(productDAO.getEverydayProductCharacteristics());
     //Create result map
     //assertThat(productDAO.getEverydayProductCharacteristics(), equalTo(map));
   }
 
   @Test
-  void getAverageOfProductPrice()
-  {
-    final Map<Product, Double> map = new LinkedHashMap<>()
-    {{
+  void getAverageOfProductPrice() {
+    final Map<Product, Double> map = new LinkedHashMap<>() {{
       put(new Product(1, "product1", "0000000001"), 1242.32);
       put(new Product(10, "product10", "1a00ddrs10"), 343.99);
       put(new Product(11, "product11", "2d00000032"), 3747.0);
@@ -94,10 +86,8 @@ public class QueriesTest extends AbstractTest
   }
 
   @Test
-  void getProductsListByOrganizations()
-  {
-    Map<Organization, List<Product>> map = new LinkedHashMap<>()
-    {{
+  void getProductsListByOrganizations() {
+    Map<Organization, List<Product>> map = new LinkedHashMap<>() {{
       put(new Organization(3, "organization3", "7300450045", "3456789012"),
         List.of(new Product(5, "product5", "1a00000032"),
           new Product(3, "product3", "1000000001"),

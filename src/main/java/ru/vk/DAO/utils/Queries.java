@@ -2,8 +2,7 @@ package ru.vk.DAO.utils;
 
 import org.jetbrains.annotations.NotNull;
 
-public record Queries()
-{
+public record Queries() {
   public static final @NotNull String AVG_OF_PRODUCT_PRICE_QUERY = """
     SELECT products.id, products.name, products.internal_code, avg(cast(price AS numeric)) AS avg FROM positions
     JOIN invoices_positions

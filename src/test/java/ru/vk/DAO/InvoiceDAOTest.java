@@ -14,8 +14,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-class InvoiceDAOTest extends AbstractTest
-{
+class InvoiceDAOTest extends AbstractTest {
   @Inject
   @NotNull
   @Named("Invoice")
@@ -23,8 +22,7 @@ class InvoiceDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Получение накладной из БД")
-  void get()
-  {
+  void get() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final String uniqueNum = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
     final Invoice invoice = new Invoice(uniqueId, uniqueNum, Date.valueOf("2022-11-16"), 1);
@@ -35,8 +33,7 @@ class InvoiceDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Просмотр всех накладных в БД")
-  void all()
-  {
+  void all() {
     List<Invoice> list = List.of(
       new Invoice(1, "1111111111", Date.valueOf("2022-11-01"), 1),
       new Invoice(2, "2222222222", Date.valueOf("2022-11-03"), 2),
@@ -59,8 +56,7 @@ class InvoiceDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Добавление новой накладной в БД")
-  void save()
-  {
+  void save() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final String uniqueNum = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
     final Invoice invoice = new Invoice(uniqueId, uniqueNum, Date.valueOf("2022-11-16"), 1);
@@ -71,8 +67,7 @@ class InvoiceDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Обновление данных накладной из БД")
-  void update()
-  {
+  void update() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final String uniqueNum = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
     final Invoice invoice = new Invoice(uniqueId, uniqueNum, Date.valueOf("2022-11-16"), 1);
@@ -85,8 +80,7 @@ class InvoiceDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Удаление накладной из БД")
-  void delete()
-  {
+  void delete() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final String uniqueNum = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
     final Invoice invoice = new Invoice(uniqueId, uniqueNum, Date.valueOf("2022-11-16"), 1);

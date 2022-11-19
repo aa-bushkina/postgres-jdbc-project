@@ -12,10 +12,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-public class Application
-{
+public class Application {
   @NotNull
   final private FlywayInitializer initializer;
 
@@ -26,45 +24,37 @@ public class Application
   final private ProductDAO productDAO;
 
   @Inject
-  public Application(@NotNull FlywayInitializer initializer, @NotNull OrganizationDAO organizationDAO, @NotNull ProductDAO productDAO)
-  {
+  public Application(@NotNull FlywayInitializer initializer, @NotNull OrganizationDAO organizationDAO, @NotNull ProductDAO productDAO) {
     this.initializer = initializer;
     this.organizationDAO = organizationDAO;
     this.productDAO = productDAO;
   }
 
-  public void makeDB(@NotNull final String path)
-  {
+  public void makeDB(@NotNull final String path) {
     initializer.initDB(path);
   }
 
-  public void cleanDB()
-  {
+  public void cleanDB() {
     initializer.cleanDB();
   }
 
-  public Map<Organization, Integer> getTop10OrganizationsByQuantity()
-  {
+  public Map<Organization, Integer> getTop10OrganizationsByQuantity() {
     return organizationDAO.getTop10OrganizationsByQuantity();
   }
 
-  public Map<Organization, Integer> getOrganizationsWithDefiniteQuantity()
-  {
+  public Map<Organization, Integer> getOrganizationsWithDefiniteQuantity() {
     return organizationDAO.getOrganizationsWithDefiniteQuantity();
   }
 
-  public Map<Product, Double> getAverageOfProductPrice()
-  {
+  public Map<Product, Double> getAverageOfProductPrice() {
     return productDAO.getAverageOfProductPrice();
   }
 
-  public Map<Date, ArrayList<ProductInfo>> getEverydayProductCharacteristics()
-  {
+  public Map<Date, ArrayList<ProductInfo>> getEverydayProductCharacteristics() {
     return productDAO.getEverydayProductCharacteristics();
   }
 
-  public Map<Organization, List<Product>> getProductsListByOrganizations()
-  {
+  public Map<Organization, List<Product>> getProductsListByOrganizations() {
     return organizationDAO.getProductsListByOrganizations();
   }
 }

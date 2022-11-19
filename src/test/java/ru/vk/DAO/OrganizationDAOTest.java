@@ -13,8 +13,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-class OrganizationDAOTest extends AbstractTest
-{
+class OrganizationDAOTest extends AbstractTest {
   @Inject
   @NotNull
   @Named("Organization")
@@ -22,8 +21,7 @@ class OrganizationDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Получение организации из БД")
-  void get()
-  {
+  void get() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final String uniqueInn = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
     final String uniquePaymentAccount = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
@@ -35,8 +33,7 @@ class OrganizationDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Просмотр всех организаций в БД")
-  void all()
-  {
+  void all() {
     List<Organization> list = List.of(
       new Organization(1, "organization1", "2330123011", "1234567890"),
       new Organization(2, "organization2", "2500000021", "2345678901"),
@@ -59,8 +56,7 @@ class OrganizationDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Добавление новой организации в БД")
-  void save()
-  {
+  void save() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final String uniqueInn = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
     final String uniquePaymentAccount = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
@@ -72,8 +68,7 @@ class OrganizationDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Обновление данных организации из БД")
-  void update()
-  {
+  void update() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final String uniqueInn = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
     final String uniquePaymentAccount = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
@@ -87,8 +82,7 @@ class OrganizationDAOTest extends AbstractTest
 
   @Test
   @DisplayName("Удаление организации из БД")
-  void delete()
-  {
+  void delete() {
     final int uniqueId = (int) (Math.random() * 1000) + 20;
     final String uniqueInn = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
     final String uniquePaymentAccount = String.valueOf((int) (Math.random() * 1000000000) + 1000000000);
