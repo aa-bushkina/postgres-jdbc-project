@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.vk.DAO.utils.Queries;
 import ru.vk.application.utils.DBProperties;
 import ru.vk.application.utils.ProductInfo;
+import ru.vk.entities.Organization;
 import ru.vk.entities.Product;
 
 import java.sql.*;
@@ -125,38 +126,62 @@ public final class ProductDAO implements Dao<Product>
     }
   }
 
-  public Set<ProductInfo> getEverydayProductCharacteristics()
+  public LinkedHashMap<Date, ArrayList<ProductInfo>> getEverydayProductCharacteristics()
   {
     try (var statement = getConnection().prepareStatement(
-      Queries.EVERYDAY_PRODUCT_CHARACTERISTICS_QUERY))
+      Queries.EVERYDAY_PRODUCT_CHARACTERISTICS_QUERY,
+      ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE))
     {
       final Date startDate = Date.valueOf("2022-11-03");
-      final Date endDate = Date.valueOf("2022-11-05");
+      final Date endDate = Date.valueOf("2022-11-04");
       statement.setDate(1, startDate);
       statement.setDate(2, endDate);
 
       try (var resultSet = statement.executeQuery())
       {
-        LinkedHashSet<ProductInfo> set = new LinkedHashSet<>();
+        ArrayList<ProductInfo> productsInfoList = new ArrayList<>();
+        LinkedHashMap<Date, ArrayList<ProductInfo>> map = new LinkedHashMap<>();
+        Date date;
+        Date currentDate = null;
+        boolean isFirstRow = true;
         while (resultSet.next())
         {
-          ProductInfo info = new ProductInfo(
-            resultSet.getDate("date"),
-            new Product(
-              resultSet.getInt("id"),
+          date = resultSet.getDate("date");
+          if (isFirstRow)
+          {
+            isFirstRow = false;
+            currentDate = date;
+          }
+          if (date.equals(currentDate))
+          {
+            productsInfoList.add(new ProductInfo(new Product(
+              resultSet.getInt("prod_id"),
               resultSet.getString("name"),
               resultSet.getString("internal_code")),
-            resultSet.getInt("quantity"),
-            resultSet.getBigDecimal("sum"));
-          set.add(info);
+              resultSet.getInt("quantity"),
+              resultSet.getBigDecimal("sum")));
+            if (!resultSet.isLast())
+            {
+              continue;
+            }
+          }
+          resultSet.previous();
+          map.put(currentDate, new ArrayList<>(productsInfoList));
+          productsInfoList.clear();
+          currentDate = date;
+          resultSet.next();
+          if (!resultSet.isLast())
+          {
+            resultSet.previous();
+          }
         }
-        return set;
+        return map;
       }
     } catch (SQLException exception)
     {
       exception.printStackTrace();
     }
-    return new LinkedHashSet<>();
+    return new LinkedHashMap<>();
   }
 
   public Map<Product, Double> getAverageOfProductPrice()

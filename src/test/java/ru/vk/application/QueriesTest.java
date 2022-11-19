@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import ru.vk.AbstractTest;
 import ru.vk.DAO.OrganizationDAO;
 import ru.vk.DAO.ProductDAO;
-import ru.vk.application.utils.ProductInfo;
 import ru.vk.entities.Organization;
 import ru.vk.entities.Product;
 
@@ -67,24 +66,9 @@ public class QueriesTest extends AbstractTest
   @Test
   void getEverydayProductCharacteristics()
   {
-    LinkedHashSet<ProductInfo> set = new LinkedHashSet<>()
-    {{
-      add(new ProductInfo(Date.valueOf("2022-11-03"),
-        new Product(12, "product12", "1a05302436"), 555, BigDecimal.valueOf(1364106.75)));
-      add(new ProductInfo(Date.valueOf("2022-11-03"),
-        new Product(13, "product13", "1113400324"), 3400, BigDecimal.valueOf(45376366.00)));
-      add(new ProductInfo(Date.valueOf("2022-11-03"),
-        new Product(14, "product14", "1113324524"), 20, BigDecimal.valueOf(9135566.00)));
-      add(new ProductInfo(Date.valueOf("2022-11-03"),
-        new Product(15, "product15", "1a00fw4500"), 100000, BigDecimal.valueOf(3456750000.00)));
-      add(new ProductInfo(Date.valueOf("2022-11-03"),
-        new Product(4, "product4", "1000000011"), 1000, BigDecimal.valueOf(13345850.00)));
-      add(new ProductInfo(Date.valueOf("2022-11-03"),
-        new Product(5, "product5", "1a00000032"), 348800, BigDecimal.valueOf(1198267520.00)));
-      add(new ProductInfo(Date.valueOf("2022-11-04"),
-        new Product(7, "product7", "1a00dfg078"), 2457, BigDecimal.valueOf(30327979.50)));
-    }};
-    assertThat(productDAO.getEverydayProductCharacteristics(), equalTo(set));
+    //System.out.println(productDAO.getEverydayProductCharacteristics());
+    //Create result map
+    //assertThat(productDAO.getEverydayProductCharacteristics(), equalTo(map));
   }
 
   @Test

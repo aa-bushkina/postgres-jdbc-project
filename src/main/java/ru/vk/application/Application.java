@@ -4,11 +4,12 @@ import com.google.inject.Inject;
 import org.jetbrains.annotations.NotNull;
 import ru.vk.DAO.OrganizationDAO;
 import ru.vk.DAO.ProductDAO;
-import ru.vk.application.utils.DBProperties;
 import ru.vk.application.utils.ProductInfo;
 import ru.vk.entities.Organization;
 import ru.vk.entities.Product;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,7 +26,7 @@ public class Application
   final private ProductDAO productDAO;
 
   @Inject
-  public Application( @NotNull FlywayInitializer initializer, @NotNull OrganizationDAO organizationDAO, @NotNull ProductDAO productDAO)
+  public Application(@NotNull FlywayInitializer initializer, @NotNull OrganizationDAO organizationDAO, @NotNull ProductDAO productDAO)
   {
     this.initializer = initializer;
     this.organizationDAO = organizationDAO;
@@ -57,7 +58,7 @@ public class Application
     return productDAO.getAverageOfProductPrice();
   }
 
-  public Set<ProductInfo> getEverydayProductCharacteristics()
+  public Map<Date, ArrayList<ProductInfo>> getEverydayProductCharacteristics()
   {
     return productDAO.getEverydayProductCharacteristics();
   }

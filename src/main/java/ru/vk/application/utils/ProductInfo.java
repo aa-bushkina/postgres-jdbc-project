@@ -4,11 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import ru.vk.entities.Product;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Objects;
 
-public record ProductInfo(@NotNull Date date,
-                          @NotNull Product product,
+public record ProductInfo(@NotNull Product product,
                           int quantity,
                           BigDecimal sum)
 {
@@ -19,7 +17,6 @@ public record ProductInfo(@NotNull Date date,
     if (o == null || getClass() != o.getClass()) return false;
     ProductInfo info = (ProductInfo) o;
     return quantity == info.quantity
-      && date.equals(info.date)
       && product.equals(info.product)
       && sum.compareTo(info.sum) == 0;
   }
@@ -27,6 +24,6 @@ public record ProductInfo(@NotNull Date date,
   @Override
   public int hashCode()
   {
-    return Objects.hash(date, product, quantity, sum.doubleValue());
+    return Objects.hash(product, quantity, sum.doubleValue());
   }
 }
