@@ -48,22 +48,20 @@ public class QueriesTest extends AbstractTest
   }
 
   @Test
+  @Deprecated
   void getOrganizationsWithDefiniteQuantity()
   {
     final Map<Organization, Integer> map = new LinkedHashMap<>()
     {{
-      put(new Organization(15, "organization15", "1023456811", "3434343434"), 356300);
-      put(new Organization(3, "organization3", "7300450045", "3456789012"), 354800);
-      put(new Organization(2, "organization2", "2500000021", "2345678901"), 349800);
-      put(new Organization(10, "organization10", "1054407811", "3456384888"), 108774);
-      put(new Organization(12, "organization12", "3567007811", "3456237474"), 103975);
-      put(new Organization(6, "organization6", "1050343811", "4444444444"), 101333);
-      put(new Organization(9, "organization9", "1052227811", "3749506837"), 10754);
+      put(new Organization(6, "organization6", "1050343811", "4444444444"), 100000);
+      put(new Organization(10, "organization10", "1054407811", "3456384888"), 100000);
+      put(new Organization(12, "organization12", "3567007811", "3456237474"), 100000);
     }};
     assertThat(organizationDAO.getOrganizationsWithDefiniteQuantity(), equalTo(map));
   }
 
   @Test
+  @Deprecated
   void getEverydayProductCharacteristics()
   {
     //System.out.println(productDAO.getEverydayProductCharacteristics());

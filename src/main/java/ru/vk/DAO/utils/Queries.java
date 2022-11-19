@@ -52,28 +52,32 @@ public record Queries()
     WHERE date >= ? AND date <= ?""";
 
   public static final @NotNull String ORGANIZATION_WITH_DEFINITE_QUANTITY_QUERY = """
+    SELECT products.id, products.name, products.internal_code,
+    organizations.id AS org_id, organizations.name AS org_name, organizations.inn, organizations.payment_account,
+    SUM(positions.quantity) AS quantity
+    FROM organizations JOIN invoices
+    ON invoices.organization_id=organizations.id
+    LEFT JOIN invoices_positions
+    ON invoices_positions.invoice_id = invoices.id
+    LEFT JOIN positions
+    ON invoices_positions.position_id = positions.id
+    LEFT JOIN products
+    ON positions.product_id = products.id
+    WHERE products.id = ?
+    GROUP BY products.id, organizations.name,  organizations.id, organizations.inn, organizations.payment_account
+    HAVING  SUM(positions.quantity)>?
+    ORDER BY quantity DESC""";
+
+  public static final @NotNull String ORGANIZATIONS_BY_QUANTITY_QUERY = """
     SELECT organizations.id, organizations.name, organizations.inn,
-    organizations.payment_account, SUM(positions.quantity) AS quantity
-    FROM organizations join invoices
+    organizations.payment_account, SUM(COALESCE(positions.quantity, 0)) AS quantity
+    FROM organizations LEFT JOIN invoices
     ON invoices.organization_id=organizations.id
     LEFT JOIN invoices_positions
     ON invoices_positions.invoice_id = invoices.id
     LEFT JOIN positions
     ON invoices_positions.position_id = positions.id
     GROUP BY organizations.name,  organizations.id, organizations.inn, organizations.payment_account
-    HAVING  SUM(positions.quantity)>?
-    ORDER BY quantity desc""";
-
-  public static final @NotNull String ORGANIZATIONS_BY_QUANTITY_QUERY = """
-      SELECT organizations.id, organizations.name, organizations.inn,
-      organizations.payment_account, SUM(COALESCE(positions.quantity, 0)) AS quantity
-      FROM organizations LEFT JOIN invoices
-      ON invoices.organization_id=organizations.id
-      LEFT JOIN invoices_positions
-      ON invoices_positions.invoice_id = invoices.id
-      LEFT JOIN positions
-      ON invoices_positions.position_id = positions.id
-      GROUP BY organizations.name,  organizations.id, organizations.inn, organizations.payment_account
-      ORDER BY quantity DESC
-      LIMIT ?""";
+    ORDER BY quantity DESC
+    LIMIT ?""";
 }

@@ -164,16 +164,18 @@ public final class OrganizationDAO implements Dao<Organization>
     try (var statement = getConnection().prepareStatement(
       Queries.ORGANIZATION_WITH_DEFINITE_QUANTITY_QUERY))
     {
-      final int quantityValue = 9000;
-      statement.setInt(1, quantityValue);
+      final int productId = 15;
+      final int quantityValue = 1000;
+      statement.setInt(1, productId);
+      statement.setInt(2, quantityValue);
       try (var resultSet = statement.executeQuery())
       {
         LinkedHashMap<Organization, Integer> map = new LinkedHashMap<>();
         while (resultSet.next())
         {
           map.put(new Organization(
-              resultSet.getInt("id"),
-              resultSet.getString("name"),
+              resultSet.getInt("org_id"),
+              resultSet.getString("org_name"),
               resultSet.getString("inn"),
               resultSet.getString("payment_account")),
             resultSet.getInt("quantity"));
